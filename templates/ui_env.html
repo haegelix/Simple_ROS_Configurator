@@ -1,0 +1,17 @@
+<h1>Current env</h1>
+<p>
+    This is a list of the currently set environment variables. The ones mostly relevant for ROS are
+    <span style="color: darkred"> colored in red </span>.
+</p>
+
+{% for (item,val) in uiargs.env %}
+    {% if (item.find('ROS') == 0) or (val.find('/ros/') != -1) %}
+        <span style="color: darkred">
+            <b>{{ item }}</b>: {{ val }} <br>
+        </span>
+    {% else %}
+        <b>{{ item }}</b>: {{ val }} <br>
+    {% endif %}
+{% else %}
+    env could not be fetched
+{% endfor %}
