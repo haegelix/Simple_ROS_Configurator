@@ -1,1 +1,0 @@
-ssh ubuntu@192.168.178.84 "cd ~/webserver/ && ./run.bash && read -p 'Press any key to resume ...'" < passwd.txt

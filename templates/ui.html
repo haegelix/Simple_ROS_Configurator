@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-		<title>{{ component}}</title>
-		<link rel="stylesheet" type="text/css" href="/static/style.css" />
-	</head>
-	<body>
-		{% include 'navbar.html' %}
-		{% include 'ui_'+component+'.html' %}
-
-		<!-- {{ component }} will be listed here. -->
-	</body>
+    <title>{{ component }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+    <link rel="icon" href="/static/favicon.png">
+    <script src="/staticaxios.min.js"></script>
+    <script src="/staticapi.js"></script>
+    <script src="/statichelpers.js"></script>
+    <script src="/staticvis-network.min.js"></script>
+</head>
+<body>
+{% include 'navbar.html' %}
+{% include 'ui_'+component+'.html' %}
+</body>
 </html>
