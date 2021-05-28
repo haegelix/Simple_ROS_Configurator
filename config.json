@@ -1,0 +1,13 @@
+{
+  "_modes_": [
+    "configs",
+    "textbased",
+    "ui"
+  ],
+  "mode": "configs",
+  "wspath": "/home/ubuntu/ros_ws2/",
+  "foreign_repos_config": "foreign_repos.json",
+  "rosdistro": "foxy",
+  "ros_source_path": "/opt/ros/foxy/setup.bash"
+}
+
