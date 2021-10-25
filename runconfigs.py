@@ -13,6 +13,10 @@ _package_info: PackageInfo
 
 
 def clear_console():
+    """
+    Clears the terminal.
+    :return: Nothing.
+    """
     command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
@@ -20,14 +24,20 @@ def clear_console():
 
 
 class Runconfigs:
-
     def __init__(self):
+        """
+        Init the Runconfigs module
+        """
         global _config, _paths, _package_info
         _config = Config()
         _paths = Paths(_config)
         _package_info = PackageInfo((_paths, _config))
 
     def run(self):
+        """
+        Triggers sub methods.
+        :return: Nothing.
+        """
         # self.clear_console()
         self.shell_source()
         self.print_config()
@@ -36,7 +46,12 @@ class Runconfigs:
         self.resolve_dep()
         _package_info.load_packagexml("")
 
-    def shell_source(self):
+    def shell_source(self) -> None:
+        """
+        Try to run ros2 framework. If not found it needs to be sourced and this application has to be re-run in a new
+        bash.
+        :return: Nothing.
+        """
         try:
             r = subprocess.run(["ros2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         except FileNotFoundError:
@@ -46,7 +61,11 @@ class Runconfigs:
         else:
             print("ROS executables found.")
 
-    def print_config(self):
+    def print_config(self) -> None:
+        """
+        Print all config values.
+        :return: Nothing
+        """
         print("CONFIG:")
         print(str(_config))
         print("\n################################\n")
@@ -54,7 +73,12 @@ class Runconfigs:
         print(str(_paths))
         print("\n################################\n")
 
-    def check_generate_ws(self):
+    def check_generate_ws(self) -> None:
+        """
+        Check for existence of the specified ROS-workspace.
+        A new one will be generated if it doesn't exist.
+        :return: Nothing.
+        """
         try:
             _paths.switch_to_ws_dir()
         except PermissionError:
@@ -82,6 +106,10 @@ class Runconfigs:
                 exit(1)
 
     def build_packages(self):
+        """
+        Build all packages defined in the configs.
+        :return: Nothing.
+        """
         configs_path = _paths.srosc_configs
 
         packages = [j for j in os.listdir(configs_path) if j.endswith(".json")]
@@ -108,16 +136,23 @@ class Runconfigs:
         pass
 
     def resolve_dep(self):
+        """
+        Build all dependencies and all packages.
+        :return: Nothing
+        """
         print("Resolving and installing dependencies...")
         cwd = os.getcwd()
         os.chdir(_paths.ros_ws)
         os.system("rosdep install -i --from-path src --rosdistro foxy -y")
-        # os.system("pwd")
         os.chdir(cwd)
-        print("Done.")
+        print("Done building dependencies.")
 
 
 def main():
+    """
+    Just executes the Runconfigs run method.
+    :return: Nothing.
+    """
     Runconfigs().run()
 
 
