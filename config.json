@@ -8,6 +8,7 @@
   "wspath": "/home/ubuntu/ros_ws2/",
   "foreign_repos_config": "foreign_repos.json",
   "rosdistro": "foxy",
-  "ros_source_path": "/opt/ros/foxy/setup.bash"
+  "ros_source_path": "/opt/ros/foxy/setup.bash",
+  "simple_ros_configurator_src_link": "https://github.com/haegelix/Simple_ROS_Configurator"
 }
 
