@@ -1,8 +1,11 @@
 import os
 import subprocess
+from lib.logadapter import logging
 from lib.config import Config
 from lib.paths import Paths
 from lib.package_config import PackageInfo
+from lib import helpers
+from lib import ros_api
 
 # load config
 _config: Config
@@ -42,36 +45,17 @@ class Runconfigs:
         self.shell_source()
         self.print_config()
         self.check_generate_ws()
-        self.build_packages()
-        self.resolve_dep()
+        self.create_packages()
+        ros_api.resolve_dep(_paths)
         _package_info.load_packagexml("")
-
-    def shell_source(self) -> None:
-        """
-        Try to run ros2 framework. If not found it needs to be sourced and this application has to be re-run in a new
-        bash.
-        :return: Nothing.
-        """
-        try:
-            r = subprocess.run(["ros2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        except FileNotFoundError:
-            print("Restarting using bash.")
-            ret = os.system("bash -c \"source " + _config.ros_source_path + "; python3 runconfigs.py\"")
-            exit(ret)
-        else:
-            print("ROS executables found.")
 
     def print_config(self) -> None:
         """
         Print all config values.
         :return: Nothing
         """
-        print("CONFIG:")
-        print(str(_config))
-        print("\n################################\n")
-        print("PATHS:")
-        print(str(_paths))
-        print("\n################################\n")
+        logging.debug("### CONFIG ###\n" + str(_config))
+        logging.debug("### PATHS ###\n" + str(_paths))
 
     def check_generate_ws(self) -> None:
         """
@@ -82,30 +66,30 @@ class Runconfigs:
         try:
             _paths.switch_to_ws_dir()
         except PermissionError:
-            print("No permission to use the directory " + _paths.ros_ws)
-            print("Exiting!")
+            logging.critical("No permission to use the directory " + _paths.ros_ws)
+            logging.critical("Exiting!")
             exit(1)
         except NotADirectoryError:
-            print("" + _paths.ros_ws + " is not a directory")
-            print("Exiting!")
+            logging.critical("Workspace at " + _paths.ros_ws + " does exist, but is not a directory")
+            logging.critical("Exiting!")
             exit(1)
         except FileNotFoundError:
-            print("Specified ROS-workspace not found!")
+            logging.info("Specified ROS-workspace not found!")
             print("Shall I generate a new one?")
-            answer = input("[Y]es or [N]o? ").upper()
-            if answer == "YES" or answer == "Y":
-                print("Generating...")
+            answer = input("[Y]es or [N]o? ")
+            if helpers.acceptable_answer_str(answer, ["y", "yes"]):
+                logging.info("Generating new workspace...")
                 os.makedirs(_paths.ros_ws_src)
-                print("Done.")
+                logging.info("Done.")
                 return
-            elif answer == "NO" or answer == "N":
-                print("Please change config before running again.\nExit!")
+            elif helpers.acceptable_answer_str(answer, ["n", "no"]):
+                logging.info("Please change config before running again.\nExit!")
                 exit(1)
             else:
-                print("Answer not valid, please try again by re-running me.\nExit!")
+                logging.warning("Answer not valid, please try again by re-running me.\nExit!")
                 exit(1)
 
-    def build_packages(self):
+    def create_packages(self):
         """
         Build all packages defined in the configs.
         :return: Nothing.
@@ -115,46 +99,99 @@ class Runconfigs:
         packages = [j for j in os.listdir(configs_path) if j.endswith(".json")]
         packages.remove(_config.foreign_repos_config)
         for p in packages:
-            print("Building package from file '" + p + "'")
+            logging.info("Building package from file '" + p + "'")
             _package_info.load_package_config(p)
             pack_src_path = _paths.get_package_src_path(_package_info.pkg_config.package_name)
-            print("Package path: " + pack_src_path)
+            logging.info("Package path: " + pack_src_path)
             try:
                 # Build dir structure
                 if os.path.isdir(pack_src_path):
-                    print("Update not yet implemented!")
-                    print("Skipping package " + _package_info.pkg_config.package_name)
-                    # print("Delete " + pack_src_path + " and re-run!")
+                    logging.warning("Update not yet implemented!")
+                    logging.warning("Skipping package " + _package_info.pkg_config.package_name)
+                    # logging.warning("Delete " + pack_src_path + " and re-run!")
                 else:
                     raise FileNotFoundError
             except FileNotFoundError:
-                _paths.switch_to_ws_source_dir()
-                os.system("ros2 pkg create --build-type ament_python " + _package_info.pkg_config.package_name)
+                ros_api.create_package(_paths, _package_info)
+                self.copy_files()
                 pass
-            print("\n---\n")
             pass
         pass
 
-    def resolve_dep(self):
+    def copy_files(self):
         """
-        Build all dependencies and all packages.
-        :return: Nothing
+        TODO docs
+        :return:
         """
-        print("Resolving and installing dependencies...")
-        cwd = os.getcwd()
-        os.chdir(_paths.ros_ws)
-        os.system("rosdep install -i --from-path src --rosdistro foxy -y")
-        os.chdir(cwd)
-        print("Done building dependencies.")
+        # TODO subs
+        for p in _package_info.pkg_config.pubs:
+            # build a line of python code for this publisher, that looks like this:
+            # p = _Pub("NODENAME", MESSAGETYPE, "TOPIC")
+            p_insertion = 'p = _Pub("' + p.node_name + '", ' + p.type + ', "' + p.topic + '")'
+            ins = ("# !INSERT_PUBLISHER_DECLARATION_HERE!", p_insertion)
+            helpers.modify_and_copy_python_file(_paths, _package_info, "pub", p.node_name + "_pub", [ins])
+            if helpers.acceptable_answer_str(p.src, "-stdin-"):
+                # use the -stdin- runner as an input for the publisher
+                ins = ("# !INSERT_PUB_IMPORT_HERE!", "import " + p.node_name + "_pub as pub")
+                helpers.modify_and_copy_python_file(_paths, _package_info, "pub_runner_stdin",
+                                                    p.node_name + "_runner", [ins])
+                pass
+            else:
+                pass
+        pass
+
+    def register_entry_points(self):
+        """
+        TODO implement & doc
+        :return:
+        """
+        #   entry_points={
+        #       'console_scripts': [
+        #           'talker = pub_TEST.test:main',
+        #           'pub = pub_TEST.pub'
+        #       ]
+        #   }
+        pass
+
+
+def probe_ros() -> bool:
+    """
+    Try to run ros2 framework.
+    :return: True if this succeeded and False otherwise
+    """
+    try:
+        r = subprocess.run(["ros2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except FileNotFoundError:
+        return False
+    else:
+        return True
 
 
 def main():
     """
-    Just executes the Runconfigs run method.
+    Checks for availability of ROS2 and the runs the app.
     :return: Nothing.
     """
-    Runconfigs().run()
+    if not probe_ros():
+        logging.info("ROS was not found --> trying to source...")
+        ret = os.system("bash -c \"source " + _config.ros_source_path + "; python3 runconfigs.py\"")
+        exit(ret)
+    else:
+        logging.info("Starting up.")
+        Runconfigs().run()
+        logging.info("Finished.")
 
 
 if __name__ == "__main__":
     main()
+
+# TODO rest implementieren
+"""
+# colcon build --packages-select PACKAGE
+# colcon build
+
+# . install/setup.bash
+# Punkt ist wichtig, oder
+
+# ros2 run PACKAGE ENTRYPOINT
+"""
