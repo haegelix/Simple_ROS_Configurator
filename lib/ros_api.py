@@ -43,6 +43,9 @@ def __runcommand(command: str, shortname: str):
     cmd = [c for c in cmd if c and c != ' ']
     logging.debug(cmd)
 
+    # unquote
+    cmd = [c.replace("\"", "").replace("'", "") for c in cmd]
+
     # run the command and deal with output
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     rtrn = proc.wait()

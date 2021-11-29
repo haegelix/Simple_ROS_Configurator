@@ -1,5 +1,5 @@
 import os
-from lib.config import Config
+from lib.config import config
 
 
 class Paths(object):
@@ -12,11 +12,11 @@ class Paths(object):
     ros_ws = ""
     ros_ws_src = ""
 
-    def __init__(self, conf: Config):
-        if conf.wspath[-1] == "/" or conf.wspath[-1] == "\\":
-            self.ros_ws = conf.wspath[:-1]
+    def __init__(self):
+        if config.wspath[-1] == "/" or config.wspath[-1] == "\\":
+            self.ros_ws = config.wspath[:-1]
         else:
-            self.ros_ws = conf.wspath[:]
+            self.ros_ws = config.wspath[:]
         self.ros_ws_src = os.path.join(self.ros_ws, "src")
         self.srosc_configs = os.path.join(self.srosc, "configs")
 
@@ -25,7 +25,7 @@ class Paths(object):
         s += "SimpleROSConfigurator WD: " + self.srosc + "\n"
         s += "SimpleROS Config Dir:     " + self.srosc_configs + "\n"
         s += "ROS workspace:            " + self.ros_ws + "\n"
-        s += "ROS workspace src-dir:    " + self.ros_ws_src
+        s += "ROS workspace src-dir:    " + self.ros_ws_src + "\n"
         return s
 
     def switch_to_configurator_dir(self) -> None:
@@ -93,3 +93,6 @@ class Paths(object):
         :return: Path.
         """
         return os.path.join(self.srosc, "py_templates", name + ".py")
+
+
+paths = Paths()

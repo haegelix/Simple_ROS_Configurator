@@ -1,26 +1,25 @@
 import json
-from lib.paths import Paths
-from lib.config import Config
-from lib.logadapter import logging
+from lib.paths import paths
 
 
 class PackageInfo(object):
     """
     PackageInfo stores and delivers information about the packages SimpleRosConfigurator shall create.
     """
+
     class __PackageConfig(object):
         class __PackageInfo(object):
             """
             __PackageInfo stores meta information about the package
             """
-            version: str            # Version of the package
-            description: str        # Description of the package
-            maintainer_mail: str    # Email address of the packages maintainer
-            maintainer: str         # Name of the packages maintainer
-            license: str            # Licence of the package
-            test_depends: [str]     # Dependencies to be used in testing of the package # TODO implement tests
-            exec_depends: [str]     # Dependencies to be used in execution of the package
-            exec_depends_str: str   # space-separated storage of above exec_depends
+            version: str  # Version of the package
+            description: str  # Description of the package
+            maintainer_mail: str  # Email address of the packages maintainer
+            maintainer: str  # Name of the packages maintainer
+            license: str  # Licence of the package
+            test_depends: [str]  # Dependencies to be used in testing of the package # TODO implement tests
+            exec_depends: [str]  # Dependencies to be used in execution of the package
+            exec_depends_str: str  # space-separated storage of above exec_depends
 
             def __init__(self, json_obj):
                 self.version = json_obj["version"]
@@ -36,13 +35,12 @@ class PackageInfo(object):
 
             def __str__(self):
                 s = ""
-                s += str(self.version) + "\n"
-                s += str(self.description) + "\n"
-                s += str(self.maintainer_mail) + "\n"
-                s += str(self.maintainer) + "\n"
-                s += str(self.license) + "\n"
-                s += str(self.test_depends) + "\n"
-                s += str(self.exec_depends) + "\n"
+                s += "Version:      " + str(self.version) + "\n"
+                s += "Description:  " + str(self.description) + "\n"
+                s += "Maintainer:   " + str(self.maintainer) + " (" + str(self.maintainer_mail) + ")\n"
+                s += "License:      " + str(self.license) + "\n"
+                s += "Test deps:    " + str(self.test_depends) + "\n"  # TODO deprecated
+                s += "Dependencies: " + str(self.exec_depends)
                 return s
 
         class __AdditionalImport(object):
@@ -83,7 +81,7 @@ class PackageInfo(object):
             node_name: str
             topic: str
             type: str
-            callback: str
+            callback: any
 
             def __init__(self, json_obj):
                 self.node_name = json_obj["node_name"]
@@ -114,35 +112,27 @@ class PackageInfo(object):
 
         def __str__(self):
             s = ""
-            s += str(self.package_name) + "\n"
-            s += str(self.package_info) + "\n"
-            s += str([str(j) for j in self.subs]) + "\n"
-            s += str([str(j) for j in self.pubs]) + "\n"
-            s += str([str(j) for j in self.additional_imports]) + "\n"
+            s += "Package name: " + str(self.package_name) + "\n"
+            s += "Package info: " + "\n|    " + str(self.package_info).replace("\n", "\n|    ") + "\n"
+            s += "Subscribers:  " + str([str(j) for j in self.subs]) + "\n"
+            s += "Publishers:   " + str([str(j) for j in self.pubs]) + "\n"
+            s += "Addi imports: " + str([str(j) for j in self.additional_imports])  # TODO deprecated
             return s
 
-    p: Paths
-    c: Config
     pkg_config: __PackageConfig
-
-    def __init__(self, args):
-        self.p, self.c = args
 
     def load_package_config(self, filename) -> None:
         """
         Load a package config file and store all info in instances of above helper-classes
         :param filename: config file to be loaded
         """
-        json_obj = json.load(open(self.p.get_package_config_path(filename)))
+        json_obj = json.load(open(paths.get_package_config_path(filename)))
         self.pkg_config = self.__PackageConfig(json_obj)
-        logging.info(str(self.pkg_config))
-
-    def load_packagexml(self, package_name):
-        pass
 
     def __str__(self):
-        s = ""
-        s += str(self.p)
-        s += str(self.c)
-        s += str(self.pkg_config) + "\n"
+        s = "### Package info ###\n"
+        s += str(self.pkg_config)
         return s
+
+
+pkg_info = PackageInfo()
