@@ -1,18 +1,11 @@
 import os
 import subprocess
+from lib.config import config
 from lib.logadapter import logging
-from lib.config import Config
-from lib.paths import Paths
-from lib.package_config import PackageInfo
+from lib.paths import paths
+from lib.packageinfo import pkg_info
 from lib import helpers
 from lib import ros_api
-
-# load config
-_config: Config
-# set paths
-_paths: Paths
-# set package_info
-_package_info: PackageInfo
 
 
 def clear_console():
@@ -27,35 +20,24 @@ def clear_console():
 
 
 class Runconfigs:
-    def __init__(self):
-        """
-        Init the Runconfigs module
-        """
-        global _config, _paths, _package_info
-        _config = Config()
-        _paths = Paths(_config)
-        _package_info = PackageInfo((_paths, _config))
-
     def run(self):
         """
         Triggers sub methods.
         :return: Nothing.
         """
-        # self.clear_console()
-        self.shell_source()
         self.print_config()
         self.check_generate_ws()
         self.create_packages()
-        ros_api.resolve_dep(_paths)
-        _package_info.load_packagexml("")
+        ros_api.resolve_dep(paths)
+        # pkg_info.load_packagexml("")
 
     def print_config(self) -> None:
         """
         Print all config values.
         :return: Nothing
         """
-        logging.debug("### CONFIG ###\n" + str(_config))
-        logging.debug("### PATHS ###\n" + str(_paths))
+        logging.debug("### CONFIG ###\n" + str(config))
+        logging.debug("### PATHS ###\n" + str(paths))
 
     def check_generate_ws(self) -> None:
         """
@@ -64,13 +46,13 @@ class Runconfigs:
         :return: Nothing.
         """
         try:
-            _paths.switch_to_ws_dir()
+            paths.switch_to_ws_dir()
         except PermissionError:
-            logging.critical("No permission to use the directory " + _paths.ros_ws)
+            logging.critical("No permission to use the directory " + paths.ros_ws)
             logging.critical("Exiting!")
             exit(1)
         except NotADirectoryError:
-            logging.critical("Workspace at " + _paths.ros_ws + " does exist, but is not a directory")
+            logging.critical("Workspace at " + paths.ros_ws + " does exist, but is not a directory")
             logging.critical("Exiting!")
             exit(1)
         except FileNotFoundError:
@@ -79,7 +61,7 @@ class Runconfigs:
             answer = input("[Y]es or [N]o? ")
             if helpers.acceptable_answer_str(answer, ["y", "yes"]):
                 logging.info("Generating new workspace...")
-                os.makedirs(_paths.ros_ws_src)
+                os.makedirs(paths.ros_ws_src)
                 logging.info("Done.")
                 return
             elif helpers.acceptable_answer_str(answer, ["n", "no"]):
@@ -99,20 +81,24 @@ class Runconfigs:
         packages = [j for j in os.listdir(configs_path) if j.endswith(".json")]
         packages.remove(_config.foreign_repos_config)
         for p in packages:
-            logging.info("Building package from file '" + p + "'")
-            _package_info.load_package_config(p)
-            pack_src_path = _paths.get_package_src_path(_package_info.pkg_config.package_name)
+            pkg_counter += 1
+            logging.info("Building package "
+                         + str(pkg_counter) + " of " + str(len(packages))
+                         + " from file '" + p + "'")
+            pkg_info.load_package_config(p)
+            logging.info(str(pkg_info))
+            pack_src_path = paths.get_package_src_path(pkg_info.pkg_config.package_name)
             logging.info("Package path: " + pack_src_path)
             try:
                 # Build dir structure
                 if os.path.isdir(pack_src_path):
                     logging.warning("Update not yet implemented!")
-                    logging.warning("Skipping package " + _package_info.pkg_config.package_name)
+                    logging.warning("Skipping package " + pkg_info.pkg_config.package_name)
                     # logging.warning("Delete " + pack_src_path + " and re-run!")
                 else:
                     raise FileNotFoundError
             except FileNotFoundError:
-                ros_api.create_package(_paths, _package_info)
+                ros_api.create_package(paths, pkg_info)
                 self.copy_files()
                 pass
             pass
@@ -124,16 +110,16 @@ class Runconfigs:
         :return:
         """
         # TODO subs
-        for p in _package_info.pkg_config.pubs:
+        for p in pkg_info.pkg_config.pubs:
             # build a line of python code for this publisher, that looks like this:
             # p = _Pub("NODENAME", MESSAGETYPE, "TOPIC")
             p_insertion = 'p = _Pub("' + p.node_name + '", ' + p.type + ', "' + p.topic + '")'
             ins = ("# !INSERT_PUBLISHER_DECLARATION_HERE!", p_insertion)
-            helpers.modify_and_copy_python_file(_paths, _package_info, "pub", p.node_name + "_pub", [ins])
+            helpers.modify_and_copy_python_file(paths, pkg_info, "pub", p.node_name + "_pub", [ins])
             if helpers.acceptable_answer_str(p.src, "-stdin-"):
                 # use the -stdin- runner as an input for the publisher
                 ins = ("# !INSERT_PUB_IMPORT_HERE!", "import " + p.node_name + "_pub as pub")
-                helpers.modify_and_copy_python_file(_paths, _package_info, "pub_runner_stdin",
+                helpers.modify_and_copy_python_file(paths, pkg_info, "pub_runner_stdin",
                                                     p.node_name + "_runner", [ins])
                 pass
             else:
@@ -174,11 +160,14 @@ def main():
     """
     if not probe_ros():
         logging.info("ROS was not found --> trying to source...")
-        ret = os.system("bash -c \"source " + _config.ros_source_path + "; python3 runconfigs.py\"")
+        ret = os.system("bash -c \"source " + config.ros_source_path + "; python3 runconfigs.py\"")
         exit(ret)
     else:
         logging.info("Starting up.")
+        # try:
         Runconfigs().run()
+        # except Exception:
+        #     pass
         logging.info("Finished.")
 
 
