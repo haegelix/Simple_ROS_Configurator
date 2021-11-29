@@ -76,10 +76,15 @@ class Runconfigs:
         Build all packages defined in the configs.
         :return: Nothing.
         """
-        configs_path = _paths.srosc_configs
+        # get all filenames and remove the ones to be ignored
+        packages = [j for j in os.listdir(paths.srosc_configs) if j.endswith(".json")]
+        packages.remove(config.foreign_repos_config)
+        for i in config.ignore_configs:
+            packages.remove(i)
+        logging.info("Found " + str(len(packages)) + " package(s) to build")
+        pkg_counter = 0
 
-        packages = [j for j in os.listdir(configs_path) if j.endswith(".json")]
-        packages.remove(_config.foreign_repos_config)
+        # build all packages in the list
         for p in packages:
             pkg_counter += 1
             logging.info("Building package "
