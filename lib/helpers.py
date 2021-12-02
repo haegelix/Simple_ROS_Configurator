@@ -10,9 +10,11 @@ from lib.entrypoint import EntryPoint
 
 def yes_or_no():
     if config.always_yes:
+        logging.info("Answer was given by config: always yes")
         return True
 
     answer = input("(Y)es or (N)o? ")
+    logging.info("Answer was: " + answer)
     if acceptable_answer_str(answer, ["y", "yes"]):
         return True
     elif acceptable_answer_str(answer, ["n", "no"]):
