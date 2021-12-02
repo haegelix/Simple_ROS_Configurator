@@ -55,10 +55,13 @@ def __runcommand(command: str, shortname: str):
 
     # unquote
     cmd = [c.replace("\"", "").replace("'", "") for c in cmd]
+    logging.debug(cmd)
 
     # run the command and deal with output
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     rtrn = proc.wait()
     stdout, stderr = proc.communicate()
     logging.debug("OUTPUT of '" + shortname + "...':\n" + str(stdout))
+    if str(stderr):
+        logging.info("STDERR of '" + shortname + "...'" + str(stderr))
     logging.info(shortname + " returned code " + str(rtrn))
