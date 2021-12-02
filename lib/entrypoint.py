@@ -21,6 +21,6 @@ class EntryPoint(object):
         s += self.filename
         s += ":"
         s += self.method
-        s += "',"
+        s += "'"
         return s
 

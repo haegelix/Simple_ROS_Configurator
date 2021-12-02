@@ -14,6 +14,6 @@
   "rosdistro": "foxy",
   "ros_source_path": "/opt/ros/foxy/setup.bash",
   "simple_ros_configurator_src_link": "https://github.com/haegelix/Simple_ROS_Configurator",
-  "always_accept": true
+  "always_yes": true
 }
 
