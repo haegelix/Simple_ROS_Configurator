@@ -13,7 +13,7 @@ from rclpy.node import Timer
 
 # import and "construct" neccessary types
 from typing import TypeVar
-# from std_msgs.msg import String
+import std_msgs
 
 MsgType = TypeVar('MsgType')
 
@@ -74,7 +74,7 @@ class Publisher(Node):
 p: _Pub
 
 
-#p = _Pub("test", String, "topic")
+# p = _Pub("test", String, "topic")
 # !INSERT_PUBLISHER_DECLARATION_HERE!
 
 def publish(msg: MsgType):
