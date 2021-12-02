@@ -1,0 +1,32 @@
+{
+  "package_name": "pub_button",
+  "package_info": {
+    "version": "0.0.1",
+    "description": "Description of the pub-package",
+    "maintainer_mail": "test@test.de",
+    "maintainer": "First Name",
+    "license": "None yet",
+    "test_depends": [
+      "ament_copyright",
+      "ament_flake8",
+      "ament_pep257",
+      "python3-pytest"
+    ],
+    "exec_depends": [
+      "rclpy",
+      "std_msgs"
+    ]
+  },
+  "subs": [
+  ],
+  "pubs": [
+    {
+      "node_name": "example",
+      "topic": "topic",
+      "type": "std_msgs.msg.String",
+      "src": "-button-"
+    }
+  ],
+  "additional_imports": [
+  ]
+}
