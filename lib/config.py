@@ -8,6 +8,7 @@ class Config(object):
     rosdistro: str
     ros_source_path: str
     ignore_configs: [str]
+    always_yes: bool
 
     def __init__(self, path="config.json"):
         js = json.load(open(path))
@@ -17,6 +18,7 @@ class Config(object):
         self.ignore_configs = js["ignore_configs"]
         self.rosdistro = js["rosdistro"]
         self.ros_source_path = js["ros_source_path"]
+        self.always_yes = js["always_yes"]
 
     def __str__(self):
         s = ""
@@ -25,7 +27,8 @@ class Config(object):
         s += "ROS Distribution (rosdistro): " + self.rosdistro + "\n"
         s += "foreign_repos_config ():      " + self.foreign_repos_config + "\n"
         s += "Ignored config files ():      " + str(self.ignore_configs) + "\n"
-        s += "ROS source-file path:         " + self.ros_source_path
+        s += "ROS source-file path:         " + self.ros_source_path + "\n"
+        s += "Always assume yes?            " + str(self.always_yes)
         return s
 
 
