@@ -67,3 +67,16 @@ def __runcommand(command: str, shortname: str):
     if str(stderr):
         logging.info("STDERR of '" + shortname + "...'" + str(stderr))
     logging.info(shortname + " returned code " + str(rtrn))
+
+
+def probe_ros() -> bool:
+    """
+    Try to run ros2 framework.
+    :return: True if this succeeded and False otherwise
+    """
+    try:
+        r = subprocess.run(["ros2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except FileNotFoundError:
+        return False
+    else:
+        return True

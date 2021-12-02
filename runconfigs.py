@@ -139,25 +139,12 @@ def copy_files(pkg_info: packageinfo.PackageInfo):
     pass
 
 
-def probe_ros() -> bool:
-    """
-    Try to run ros2 framework.
-    :return: True if this succeeded and False otherwise
-    """
-    try:
-        r = subprocess.run(["ros2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    except FileNotFoundError:
-        return False
-    else:
-        return True
-
-
 def main():
     """
     Checks for availability of ROS2 and the runs the app.
     :return: Nothing.
     """
-    if not probe_ros():
+    if not ros_api.probe_ros():
         logging.info("ROS was not found --> trying to source...")
         ret = os.system("bash -c \"source " + config.ros_source_path + "; python3 runconfigs.py\"")
         exit(ret)
