@@ -39,3 +39,44 @@ def modify_and_copy_python_file(_paths, _package_info, templ_name: str, dest_nam
     out_file = open(dest_name + ".py", "w")
     out_file.write(py_code)
     out_file.close()
+
+
+def register_entry_points(pkg_info: packageinfo.PackageConfig, entries: [EntryPoint]):
+    """
+    TODO doc
+    """
+    cwd = os.getcwd()
+    setup_py_path = paths.get_package_src_path(pkg_info.package_name, "setup.py")
+
+    logging.debug("setup.py path: " + str(setup_py_path))
+    logging.debug("Adding entry_point(s): " + str(entries))
+    logging.debug("DEBUG: " + str(paths.get_package_src_path(pkg_info.package_name)))
+
+    # read template file
+    in_file = open(setup_py_path, "r")
+    py_code = in_file.read()
+    in_file.close()
+
+    # insert snippet
+    for e in entries:
+        py_code = py_code.replace("'console_scripts': [", "'console_scripts': [\n" + e.to_python() + ",")
+
+    # write file
+    out_file = open(setup_py_path, "w")
+    out_file.write(py_code)
+    out_file.close()
+
+    # reset cwd
+    os.chdir(cwd)
+
+
+def clear_console():
+    """
+    Clears the terminal.
+    TODO delete?
+    """
+    warnings.warn("This method is not usable in PyCharm Remote Env", DeprecationWarning, 2)
+    command = 'clear'
+    if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
+        command = 'cls'
+    os.system(command)
