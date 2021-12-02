@@ -70,13 +70,18 @@ class Paths(object):
         """
         return os.path.join(self.srosc_configs, filename)
 
-    def get_package_src_path(self, name) -> str:
+    def get_package_src_path(self, name: str, filename="") -> str:
         """
         Config code is directly inside package source directory.
         :param name: name of the package
+        :param filename: filename of file inside this dir
         :return: path to the config-files directory of this project
         """
-        return os.path.join(self.ros_ws_src, name)
+        base_path = os.path.join(self.ros_ws_src, name)
+        if filename and len(filename) > 2:
+            return os.path.join(base_path, filename)
+        else:
+            return base_path
 
     def get_package_py_src_path(self, name) -> str:
         """
