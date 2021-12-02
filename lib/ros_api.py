@@ -34,6 +34,16 @@ def resolve_dep(paths):
     logging.info("Done resolving dependencies.")
 
 
+def build_package(pkg_info: packageinfo.PackageInfo):
+    logging.info("Building the new package...")
+    cwd = os.getcwd()
+    os.chdir(paths.ros_ws)
+    command = "colcon build --packages-select " + pkg_info.package_name
+    __runcommand(command, "colcon build")
+    os.chdir(cwd)
+    logging.info("Done building.")
+
+
 def __runcommand(command: str, shortname: str):
     # Split command without splitting nested Strings.
     pattern = re.compile(r'''((?:[^ "']|"[^"]*"|'[^']*')+)''')
