@@ -5,7 +5,7 @@ from lib.config import config
 class Paths(object):
     """
     Paths will store, manage and switch directories needed for SimpleRosConfigurator.
-    This class be used as singleton.
+    This class shall be used as singleton since it's instances values will not change after loading the configuration.
     """
     srosc = os.getcwd()
     srosc_configs = ""

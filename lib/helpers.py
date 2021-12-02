@@ -1,3 +1,27 @@
+import os
+import warnings
+
+from lib.config import config
+from lib.paths import paths
+import lib.packageinfo as packageinfo
+from lib.logadapter import logging
+from lib.entrypoint import EntryPoint
+
+
+def yes_or_no():
+    if config.always_yes:
+        return True
+
+    answer = input("(Y)es or (N)o? ")
+    if acceptable_answer_str(answer, ["y", "yes"]):
+        return True
+    elif acceptable_answer_str(answer, ["n", "no"]):
+        return False
+    else:
+        logging.warning("Answer not valid, please try again...")
+        return yes_or_no()
+
+
 def acceptable_answer_str(answer: str, acceptable: [str], use_upper=True) -> bool:
     """
     Checks if a given answer is in the range of acceptable answers
@@ -24,9 +48,10 @@ def acceptable_answer_int(answer: int, acceptable: [int]) -> bool:
     return answer in acceptable
 
 
-def modify_and_copy_python_file(_paths, _package_info, templ_name: str, dest_name: str, replacements: [(str, str)]):
+def modify_and_copy_python_file(pkg_info: packageinfo.PackageInfo, templ_name: str, dest_name: str,
+                                replacements: [(str, str)]):
     # read template file
-    in_file = open(_paths.get_template_path(templ_name), "r")
+    in_file = open(paths.get_template_path(templ_name), "r")
     py_code = in_file.read()
     in_file.close()
 
@@ -35,13 +60,13 @@ def modify_and_copy_python_file(_paths, _package_info, templ_name: str, dest_nam
         py_code = py_code.replace(old, new)
 
     # write file
-    _paths.switch_to_package_py_dir(_package_info.pkg_config.package_name)
+    paths.switch_to_package_py_dir(pkg_info.package_name)
     out_file = open(dest_name + ".py", "w")
     out_file.write(py_code)
     out_file.close()
 
 
-def register_entry_points(pkg_info: packageinfo.PackageConfig, entries: [EntryPoint]):
+def register_entry_points(pkg_info: packageinfo.PackageInfo, entries: [EntryPoint]):
     """
     TODO doc
     """

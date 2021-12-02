@@ -1,26 +1,29 @@
 from lib.logadapter import logging
+from lib.paths import paths
+import lib.packageinfo as packageinfo
 import os
 import subprocess
 import re
 
 
-def create_package(paths, package_info) -> None:
+def create_package(pkg_info: packageinfo.PackageInfo) -> None:
     """
     Creates a new package by using the ros2 executables
     """
+    cwd = os.getcwd()
     paths.switch_to_ws_source_dir()
     command = ("ros2 pkg create --build-type ament_python"
-               + " --description \"" + str(package_info.pkg_config.package_info.description) + "\""
-               + " --license \"" + str(package_info.pkg_config.package_info.license) + "\""
-               + " --dependencies " + str(package_info.pkg_config.package_info.exec_depends_str)
-               + " --maintainer-email \"" + str(package_info.pkg_config.package_info.maintainer_mail)
-               + "\""
-               + " --maintainer-name \"" + str(package_info.pkg_config.package_info.maintainer) + "\""
-               + " " + str(package_info.pkg_config.package_name))
+               + " --description \"" + str(pkg_info.package_info.description) + "\""
+               + " --license \"" + str(pkg_info.package_info.license) + "\""
+               + " --dependencies " + str(pkg_info.package_info.exec_depends_str)
+               + " --maintainer-email \"" + str(pkg_info.package_info.maintainer_mail) + "\""
+               + " --maintainer-name \"" + str(pkg_info.package_info.maintainer) + "\""
+               + " " + str(pkg_info.package_name))
     __runcommand(command, "ros2 pkg create")
+    os.chdir(cwd)
 
 
-def resolve_dep(paths):
+def resolve_dep():
     """
     Build all dependencies and all packages.
     :return: Nothing
@@ -51,7 +54,6 @@ def __runcommand(command: str, shortname: str):
 
     # delete al empty strings
     cmd = [c for c in cmd if c and c != ' ']
-    logging.debug(cmd)
 
     # unquote
     cmd = [c.replace("\"", "").replace("'", "") for c in cmd]
