@@ -5,7 +5,7 @@ import subprocess
 import shutil
 # my lib imports
 from lib.config import config
-from lib.logadapter import logging
+from lib.logadapter import logging, setup_logging
 from lib.paths import paths
 import lib.packageinfo as packageinfo
 from lib import helpers
@@ -144,6 +144,7 @@ def main():
     Checks for availability of ROS2 and the runs the app.
     :return: Nothing.
     """
+    setup_logging("runconfigs.log")
     if not ros_api.probe_ros():
         logging.info("ROS was not found --> trying to source...")
         ret = os.system("bash -c \"source " + config.ros_source_path + "; python3 runconfigs.py\"")
