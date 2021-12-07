@@ -151,7 +151,7 @@ def main():
     setup_logging("runconfigs.log")
     if not ros_api.probe_ros():
         logging.info("ROS was not found --> trying to source...")
-        ret = os.system("bash -c \"source " + config.ros_source_path + "; python3 runconfigs.py\"")
+        ret = os.system("runconfigs.sh")  # TODO pass on argv
         exit(ret)
     else:
         logging.info("Starting up.")
