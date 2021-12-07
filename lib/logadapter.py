@@ -9,19 +9,20 @@ class LogAdapter(logg.LoggerAdapter):
 
 
 def setup_logging(filename: str):
-    # set style of logging
-    log_fmt = logg.Formatter('%(asctime)s %(levelname)s - %(message)s', '%m.%d.%Y %H:%M:%S')
+    # set loglevel
     root_logger = logg.getLogger()
     root_logger.setLevel(logg.DEBUG)
 
     # output log to logfile
+    log_fmt_file = logg.Formatter('%(asctime)s %(levelname)s - %(message)s', '%m.%d.%Y %H:%M:%S')
     file_handler = logg.FileHandler(filename)
-    file_handler.setFormatter(log_fmt)
+    file_handler.setFormatter(log_fmt_file)
     root_logger.addHandler(file_handler)
 
-    # output log to stderr
+    # output log to stdout
+    log_fmt_stdout = logg.Formatter('%(message)s')
     console_handler = logg.StreamHandler()
-    console_handler.setFormatter(log_fmt)
+    console_handler.setFormatter(log_fmt_stdout)
     root_logger.addHandler(console_handler)
 
     # set levelnames to be 4 chars long
