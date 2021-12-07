@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # system wide imports
 import os
-import subprocess
 import shutil
+
 # my lib imports
 from lib.config import config
 from lib.logadapter import logging, setup_logging
