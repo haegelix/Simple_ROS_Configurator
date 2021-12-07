@@ -5,6 +5,8 @@ import os
 import subprocess
 import re
 
+pattern_empty_string = re.compile(r'[\n\t\r _-]*')
+
 
 def create_package(pkg_info: packageinfo.PackageInfo) -> None:
     """
@@ -61,12 +63,13 @@ def __runcommand(command: str, shortname: str):
 
     # run the command and deal with output
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    rtrn = proc.wait()
+    return_val = proc.wait()
     stdout, stderr = proc.communicate()
-    logging.debug("OUTPUT of '" + shortname + "...':\n" + str(stdout))
-    if str(stderr):
-        logging.info("STDERR of '" + shortname + "...'" + str(stderr))
-    logging.info(shortname + " returned code " + str(rtrn))
+    if not len(pattern_empty_string.sub("", str(stdout))) == 0:  # stdout not empty --> log it
+        logging.info("STDOUT of '" + shortname + "...':\n" + str(stdout))
+    if not len(pattern_empty_string.sub("", str(stderr))) == 0:  # stderr not empty --> log it
+        logging.info("STDERR of '" + shortname + "...':\n" + str(stderr))
+    logging.info(shortname + " returned code " + str(return_val))
 
 
 def probe_ros() -> bool:
