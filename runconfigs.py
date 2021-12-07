@@ -19,7 +19,10 @@ def run():
     """
     print_config()
     check_generate_ws()
-    create_packages_from_config_files()
+    if config.selected_pkg_config:  # only build specific package
+        logging.info("Building package from file '" + config.selected_pkg_config + "'")
+    else:  # build all packages from config files
+        create_packages_from_config_files()
     ros_api.resolve_dep()
 
 
@@ -81,8 +84,8 @@ def create_packages_from_config_files():
     pass
 
 
-def create_package(p):
-    pkg_info = packageinfo.load_package_config_from_file(p)
+def create_package(filename):
+    pkg_info = packageinfo.load_package_config_from_file(filename)
     logging.info(str(pkg_info))
     pack_src_path = paths.get_package_src_path(pkg_info.package_name)
     logging.info("Package path: " + pack_src_path)
