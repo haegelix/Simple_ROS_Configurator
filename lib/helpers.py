@@ -8,8 +8,8 @@ from lib.logadapter import logging
 from lib.entrypoint import EntryPoint
 
 
-def yes_or_no():
-    if config.always_yes:
+def yes_or_no(use_config=True):
+    if config.always_yes and use_config:
         logging.info("Answer was given by config: always yes")
         return True
 
