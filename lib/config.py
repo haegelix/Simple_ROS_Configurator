@@ -34,6 +34,7 @@ class Config(object):
         self.rosdistro = conf["rosdistro"]
         self.ros_source_path = conf["ros_source_path"]
         self.always_yes = conf["always_yes"]
+        self.selected_pkg_config = ""
 
     def __parse_argv__(self):
         """
@@ -77,6 +78,10 @@ class Config(object):
                 pass  # this branch is unreachable
 
     def __str__(self):
+        selected_pkg_config = "None"
+        if self.selected_pkg_config:
+            selected_pkg_config = self.selected_pkg_config
+
         s = ""
         s += "ROS-workspace (wspath):       " + self.wspath + "\n"
         s += "Configurator-mode (mode):     " + self.mode + "\n"
@@ -84,7 +89,8 @@ class Config(object):
         s += "foreign_repos_config ():      " + self.foreign_repos_config + "\n"
         s += "Ignored config files ():      " + str(self.ignore_configs) + "\n"
         s += "ROS source-file path:         " + self.ros_source_path + "\n"
-        s += "Always assume yes?            " + str(self.always_yes)
+        s += "Always assume yes?            " + str(self.always_yes) + "\n"
+        s += "Specific package selected?    " + str(selected_pkg_config)
         return s
 
 
