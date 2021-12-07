@@ -24,3 +24,5 @@ class EntryPoint(object):
         s += "'"
         return s
 
+    def __str__(self):
+        return self.to_python()
