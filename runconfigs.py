@@ -21,6 +21,7 @@ def run():
     check_generate_ws()
     if config.selected_pkg_config:  # only build specific package
         logging.info("Building package from config file '" + config.selected_pkg_config + "'")
+        create_package(config.selected_pkg_config)
     else:  # build all packages from config files
         create_packages_from_config_files()
     ros_api.resolve_dep()
