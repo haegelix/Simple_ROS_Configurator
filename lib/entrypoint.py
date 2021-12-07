@@ -26,3 +26,6 @@ class EntryPoint(object):
 
     def __str__(self):
         return self.to_python()
+
+    def __repr__(self):
+        return self.to_python()
