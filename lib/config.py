@@ -47,7 +47,10 @@ class Config(object):
             print_help()
             sys.exit(2)
 
-        o, a = zip(*opts)
+        try:
+            o, a = zip(*opts)
+        except ValueError:  # no command line parameters given
+            return
 
         # search for version or help flags
         if "-h" in o or "--help" in o:
