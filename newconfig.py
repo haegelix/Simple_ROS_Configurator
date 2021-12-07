@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 import json
+import os
+
 import lib.helpers as helpers
 from lib.logadapter import logging, setup_logging
 import re
@@ -101,12 +103,16 @@ def main():
     print("So this is what I'd write to a file:")
     s = pkg.to_json()
     print(s)
-    print("\n Shall I write the file?")
+    print("\nShall I write the file?")
     if helpers.yes_or_no(use_config=False):  # yes
         filename = input("What shall be the filename (please omit the .json)? ")
         out_file = open("./configs/" + filename + ".json", "w")
         out_file.write(s)
         out_file.close()
+
+        print("\nShall I directly build your package?")
+        if helpers.yes_or_no(use_config=False):  # yes
+            os.system("bash ./runserver.sh")
     else:  # no
         return
 
