@@ -1,4 +1,9 @@
+.PHONY: all
+all:
+	@echo Nothing to do. Call a specific target please.
+
 .PHONY: checkroot
+checkroot:
 	ifneq ($(shell id -u), 0)
 		@echo "You must be root to do this"
 		exit 2
