@@ -1,3 +1,7 @@
+BIN_DIR="/usr/local/bin/"
+LIB_DIR="/usr/local/lib/srosc/"
+CFG_DIR="/etc/srosc/"
+
 .PHONY: all
 all:
 	@echo Nothing to do. Call a specific target please.
@@ -9,19 +13,20 @@ ifneq ($(shell id -u), 0)
 	exit 2
 endif
 
-.PHONY: makedirs
+.PHONY: checkroot makedirs
 makedirs:
 	@echo Making dirs...
-	mkdir /etc/srosc
-	mkdir /usr/local/lib/srosc
+	mkdir ${LIB_DIR}
+	mkdir ${CFG_DIR}
 
-.PHONY: copyfiles
+.PHONY: checkroot copyfiles
 copyfiles:
 	@echo Copying files...
 
 .PHONY: setpermissions
-setpermissions:
+setpermissions: checkroot
 	@echo Setting permissions...
+	sh ${LIB_DIR}setup.sh
 
 .PHONY: install
 install: checkroot makedirs copyfiles setpermissions
