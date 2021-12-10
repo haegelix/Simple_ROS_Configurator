@@ -3,7 +3,7 @@ import json
 import os
 
 import lib.helpers as helpers
-from lib.logadapter import logging, setup_logging
+from lib.logadapter import setup_logging
 import re
 
 # ^[\w.-]+@([\w-]+.)+[\w-]{2,4}$

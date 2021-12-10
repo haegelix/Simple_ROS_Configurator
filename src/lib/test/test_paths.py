@@ -1,7 +1,7 @@
 import json
 import os
 from unittest import TestCase
-from lib import paths
+from src.lib.lib import paths
 
 
 class TestPaths(TestCase):

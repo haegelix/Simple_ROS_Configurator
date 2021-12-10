@@ -1,5 +1,5 @@
 import json
-from lib.paths import paths
+from src.lib.lib.paths import paths
 
 
 class PackageInfo(object):

@@ -16,7 +16,7 @@ app = Flask(__name__)
 if os.environ.get("FLASK_ENV") == "development":
     app.debug = True
     app.secret_key = '0123456789abcdef'
-    toolbar = DebugToolbarExtension(app)
+    # toolbar = DebugToolbarExtension(app)
 
 rclpy.init()
 rosnode = rclpy.create_node("test")
@@ -76,7 +76,7 @@ def ui(target):
         pass
     else:
         abort(404)
-    return render_template('ui.html', component=target, uiargs=uiargs)
+    return render_template('templates/ui.html', component=target, uiargs=uiargs)
 
 
 @app.route('/api/<string:target>')

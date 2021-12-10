@@ -1,5 +1,5 @@
 import os
-from lib.config import config
+from src.lib.lib.config import config
 
 
 class Paths(object):
