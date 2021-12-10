@@ -4,9 +4,10 @@ all:
 
 .PHONY: checkroot
 checkroot:
-	ifneq ($(shell id -u), 0)
-		@echo "You must be root to do this"
-		exit 2
+ifneq ($(shell id -u), 0)
+	@echo "You must be root to do this"
+	exit 2
+endif
 
 .PHONY: makedirs
 makedirs:
