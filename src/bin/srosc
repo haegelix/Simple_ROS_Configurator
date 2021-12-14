@@ -1,2 +1,10 @@
 #!/bin/sh
+
+######################################################
+#  This is just a wrapper for the real application.  #
+#  It will simply call it and exit when it is done.  #
+#           Nothing more, nothing less.              #
+######################################################
+
 python3 /usr/local/lib/srosc/srosc.py "$@"
+exit
