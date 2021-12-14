@@ -47,9 +47,9 @@ makedirs: checkroot
 .PHONY: copyfiles
 copyfiles: checkroot
 	@echo Copying files...
-	@cp ./src/bin/srosc ${BIN_DIR}
-	@cp -r ./src/lib/* ${LIB_DIR}
-	@cp -r ./src/etc/* ${CFG_DIR}
+	@cp ./bin/srosc ${BIN_DIR}
+	@cp -r ./lib/* ${LIB_DIR}
+	@cp -r ./etc/* ${CFG_DIR}
 	@echo Copying files... DONE
 
 .PHONY: createlogs
