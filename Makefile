@@ -57,8 +57,8 @@ copyfiles: checkroot
 .PHONY: createlogs
 createlogs: checkroot
 	@echo Creating log files...
-	touch ${LOG_DIR}runconfigs.log
-	touch ${LOG_DIR}newconfig.log
+	@touch ${LOG_DIR}runconfigs.log
+	@touch ${LOG_DIR}newconfig.log
 	@echo Creating log files... DONE
 
 .PHONY: setpermissions
