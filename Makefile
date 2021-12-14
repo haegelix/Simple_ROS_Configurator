@@ -8,7 +8,7 @@ LOG_DIR=/var/log/srosc/
 pack:
 	@cd ./src/ && make
 
-.PHONY: clean_install
+.PHONY: dev_clean_install
 clean_install:
 	@rm -rvf ${CFG_DIR}
 	@rm -rvf ${LOG_DIR}
