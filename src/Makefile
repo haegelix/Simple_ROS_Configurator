@@ -18,12 +18,6 @@ REPLACES=
 INSTALL=no
 MORE_FLAGS=--nodoc
 
-# directories
-BIN_DIR=/usr/local/bin/
-LIB_DIR=/usr/local/lib/srosc/
-CFG_DIR=/etc/srosc/
-LOG_DIR=/var/log/srosc/
-
 .PHONY: all
 all:
 	@echo Nothing to do. Call a specific target please.
