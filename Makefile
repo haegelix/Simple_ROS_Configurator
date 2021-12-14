@@ -49,8 +49,8 @@ makedirs: checkroot
 copyfiles: checkroot
 	@echo Copying files...
 	cp ./src/bin/srosc ${BIN_DIR}
-	cp ./src/lib/* ${LIB_DIR}
-	cp ./src/etc/* ${CFG_DIR}
+	cp -r ./src/lib/* ${LIB_DIR}
+	cp -r ./src/etc/* ${CFG_DIR}
 	# create empty logfiles
 	touch ${LOG_DIR}runconfigs.log
 	touch ${LOG_DIR}newconfig.log
