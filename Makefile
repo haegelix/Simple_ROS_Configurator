@@ -44,6 +44,7 @@ makedirs: checkroot
 	[ -d $(LIB_DIR) ] || mkdir ${LIB_DIR}
 	[ -d $(CFG_DIR) ] || mkdir ${CFG_DIR}
 	[ -d $(LOG_DIR) ] || mkdir ${LOG_DIR}
+	@echo Making dirs... DONE
 
 .PHONY: copyfiles
 copyfiles: checkroot
@@ -54,31 +55,33 @@ copyfiles: checkroot
 	# create empty logfiles
 	touch ${LOG_DIR}runconfigs.log
 	touch ${LOG_DIR}newconfig.log
+	@echo Copying files... DONE
 
 .PHONY: setpermissions
 setpermissions: checkroot
 	@echo Setting permissions...
-	# srosc
-	chmod o+x ${BIN_DIR}srosc
-	chmod o+x ${LIB_DIR}srosc.py
-	# runconfigs
-	chmod o+x ${LIB_DIR}runconfigs.sh
-	chmod o+x ${LIB_DIR}runconfigs.py
-	# text ui
-	chmod o+x ${LIB_DIR}newconfig.py
-	# web ui
-	chmod o+x ${LIB_DIR}runserver.sh
-	chmod o+x ${LIB_DIR}runserver.py
-	chmod o+x ${LIB_DIR}app.py
-	# config
-	chmod 644 ${CFG_DIR}config.json
-	# log
-	chmod 777 ${LOG_DIR}
-	chmod -R 777 ${LOG_DIR}*
+	@# srosc
+	@chmod o+x ${BIN_DIR}srosc
+	@chmod o+x ${LIB_DIR}srosc.py
+	@# runconfigs
+	@chmod o+x ${LIB_DIR}runconfigs.sh
+	@chmod o+x ${LIB_DIR}runconfigs.py
+	@# text ui
+	@chmod o+x ${LIB_DIR}newconfig.py
+	@# web ui
+	@chmod o+x ${LIB_DIR}runserver.sh
+	@chmod o+x ${LIB_DIR}runserver.py
+	@chmod o+x ${LIB_DIR}app.py
+	@# config
+	@chmod 644 ${CFG_DIR}config.json
+	@# log
+	@chmod 777 ${LOG_DIR}
+	@chmod -R 777 ${LOG_DIR}*
+	@echo Setting permissions... DONE
 
 .PHONY: install
 install: checkroot makedirs copyfiles setpermissions
-	@echo Installing...
+	@echo Installing... DONE
 
 .PHONY: pack
 pack:
