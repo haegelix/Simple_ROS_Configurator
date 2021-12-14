@@ -1,12 +1,12 @@
 # DIRS
-BIN_DIR=/usr/local/bin/
-LIB_DIR=/usr/local/lib/srosc/
-CFG_DIR=/etc/srosc/
-LOG_DIR=/var/log/srosc/
+export BIN_DIR=/usr/local/bin/
+export LIB_DIR=/usr/local/lib/srosc/
+export CFG_DIR=/etc/srosc/
+export LOG_DIR=/var/log/srosc/
 
 .PHONY: pack
 pack:
-	@cd ./src/ && make pack
+	@cd ./src/ && $(MAKE) pack
 
 .PHONY: dev_clean_install
 clean_install:
