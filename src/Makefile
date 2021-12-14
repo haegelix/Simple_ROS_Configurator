@@ -18,10 +18,12 @@ REPLACES=
 INSTALL=no
 MORE_FLAGS=--nodoc
 
-.PHONY: all
-all:
+# just a dummy to catch all simple calls to "make" without given target
+.PHONY: dummy
+dummy:
 	@echo Nothing to do. Call a specific target please.
 
+# check for superuser privileges (this target is being used in many of the others)
 .PHONY: checkroot
 checkroot:
 ifneq ($(shell id -u), 0)
@@ -30,6 +32,7 @@ ifneq ($(shell id -u), 0)
 endif
 	@echo "Check for superuser privileges... DONE"
 
+# make all neccessary directories
 .PHONY: makedirs
 makedirs: checkroot
 	@echo Making dirs...
@@ -38,6 +41,7 @@ makedirs: checkroot
 	@[ -d $(LOG_DIR) ] || mkdir ${LOG_DIR}
 	@echo Making dirs... DONE
 
+# copy all files to the correct directories
 .PHONY: copyfiles
 copyfiles: checkroot
 	@echo Copying files...
@@ -46,6 +50,7 @@ copyfiles: checkroot
 	@cp -r ./etc/* ${CFG_DIR}
 	@echo Copying files... DONE
 
+# create empty logfiles
 .PHONY: createlogs
 createlogs: checkroot
 	@echo Creating log files...
@@ -53,6 +58,7 @@ createlogs: checkroot
 	@touch ${LOG_DIR}newconfig.log
 	@echo Creating log files... DONE
 
+# set all file permissions correctly (executables may be executable...)
 .PHONY: setpermissions
 setpermissions: checkroot
 	@echo Setting permissions...
@@ -75,10 +81,12 @@ setpermissions: checkroot
 	@chmod -R 777 ${LOG_DIR}*
 	@echo Setting permissions... DONE
 
+# launch the whole install routine (mainly using other targets)
 .PHONY: install
 install: checkroot makedirs copyfiles createlogs setpermissions
 	@echo Installing... DONE
 
+# pack a debian package
 .PHONY: pack
 pack:
 	checkinstall -y --pkgname=${PKG_NAME} --pkgversion=${PKG_VERSION} --pkgarch=${PKG_ARCH} \
