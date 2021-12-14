@@ -6,7 +6,7 @@ LOG_DIR=/var/log/srosc/
 
 .PHONY: pack
 pack:
-	@cd ./src/ && make
+	@cd ./src/ && make pack
 
 .PHONY: dev_clean_install
 clean_install:
