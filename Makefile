@@ -22,7 +22,7 @@ MORE_FLAGS=--nodoc
 BIN_DIR=/usr/local/bin/
 LIB_DIR=/usr/local/lib/srosc/
 CFG_DIR=/etc/srosc/
-LOG_DIR=/etc/srosc/
+LOG_DIR=/var/log/srosc/
 
 PACK_SRC_DIR=./src/
 
