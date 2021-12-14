@@ -98,7 +98,7 @@ def print_help():
     print_version()
     print("")
     print("Usage:")
-    print(sys.argv[0], ' [-h] [-i | -y] [-s <config_name>]')
+    print("srosc", sys.argv[0], ' [-h] [-i | -y] [-s <config_name>]')
     print("-h --help                Will produce this output and then exit.")
     print("-v --version             Will print version details and then exit.")
     print("-i --interactive         Force app to interact with you.")
