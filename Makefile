@@ -41,9 +41,9 @@ endif
 .PHONY: makedirs
 makedirs: checkroot
 	@echo Making dirs...
-	mkdir ${LIB_DIR}
-	mkdir ${CFG_DIR}
-	mkdir ${LOG_DIR}
+	[ -d $(LIB_DIR) ] || mkdir ${LIB_DIR}
+	[ -d $(CFG_DIR) ] || mkdir ${CFG_DIR}
+	[ -d $(LOG_DIR) ] || mkdir ${LOG_DIR}
 
 .PHONY: copyfiles
 copyfiles: checkroot
