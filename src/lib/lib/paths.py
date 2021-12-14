@@ -97,7 +97,7 @@ class Paths(object):
         :param name: Name of the template.
         :return: Path.
         """
-        return os.path.join(self.srosc, "py_templates", name + ".py")
+        return os.path.join(self.srosc, "template_files", name + ".py")
 
 
 paths = Paths()
