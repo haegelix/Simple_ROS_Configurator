@@ -52,10 +52,14 @@ copyfiles: checkroot
 	cp ./src/bin/srosc ${BIN_DIR}
 	cp -r ./src/lib/* ${LIB_DIR}
 	cp -r ./src/etc/* ${CFG_DIR}
-	# create empty logfiles
+	@echo Copying files... DONE
+
+.PHONY: createlogs
+createlogs: checkroot
+	@echo Creating log files...
 	touch ${LOG_DIR}runconfigs.log
 	touch ${LOG_DIR}newconfig.log
-	@echo Copying files... DONE
+	@echo Creating log files... DONE
 
 .PHONY: setpermissions
 setpermissions: checkroot
