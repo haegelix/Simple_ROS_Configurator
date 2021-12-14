@@ -1,2 +1,2 @@
 #!/bin/sh
-python3 srosc.py "$@"
+python3 /usr/local/lib/srosc/srosc.py "$@"
