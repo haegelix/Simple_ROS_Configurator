@@ -84,7 +84,7 @@ setpermissions: checkroot
 	@echo Setting permissions... DONE
 
 .PHONY: install
-install: checkroot makedirs copyfiles setpermissions
+install: checkroot makedirs copyfiles createlogs setpermissions
 	@echo Installing... DONE
 
 .PHONY: pack
