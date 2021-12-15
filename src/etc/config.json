@@ -1,6 +1,5 @@
 {
   "type": "srosc/config",
-  "mode": "configs",
   "wspath": "/home/ubuntu/ros_ws2/",
   "foreign_repos_config": "foreign_repos.json",
   "ignore_configs": [
