@@ -18,22 +18,26 @@ class Config(object):
 
     def __init__(self, path=paths.get_global_config_path()):
         # load config from file
-        self.__parse_file__(path)
+        self.__parse_file__(path, fail_on_missing=True)
         self.__parse_argv__()
 
-    def __parse_file__(self, path: str):
+    def __parse_file__(self, path: str, fail_on_missing=False):
         """
         Parse the given config file.
         :param path: String containing the path to the config file.
         """
         conf = json.load(open(path))
-        self.wspath = conf["wspath"]
-        self.foreign_repos_config = conf["foreign_repos_config"]
-        self.ignore_configs = conf["ignore_configs"]
-        self.rosdistro = conf["rosdistro"]
-        self.ros_source_path = conf["ros_source_path"]
-        self.always_yes = conf["always_yes"]
-        self.selected_pkg_config = ""
+        try:
+            self.wspath = self.conf_val(conf, "wspath", fail_on_missing)
+            self.foreign_repos_config = self.conf_val(conf, "foreign_repos_config", fail_on_missing)
+            self.ignore_configs = self.conf_val(conf, "ignore_configs", fail_on_missing)
+            self.rosdistro = self.conf_val(conf, "rosdistro", fail_on_missing)
+            self.ros_source_path = self.conf_val(conf, "ros_source_path", fail_on_missing)
+            self.always_yes = self.conf_val(conf, "always_yes", fail_on_missing)
+        except KeyError as k:
+            if fail_on_missing:
+                print("Affected config file:", path)
+                raise k
 
     def __parse_argv__(self):
         """
@@ -90,6 +94,19 @@ class Config(object):
         s += "Always assume yes?            " + str(self.always_yes) + "\n"
         s += "Specific package selected?    " + str(selected_pkg_config)
         return s
+
+    def parse_workspace_config(self):
+        self.__parse_file__(paths.get_srosc_ws_configfile_path(), fail_on_missing=False)
+
+    def conf_val(self, conf, key, fail_on_missing):
+        try:
+            return conf[key]
+        except KeyError as k:
+            if fail_on_missing:
+                print("Key", key, "not found.")
+                raise k
+            else:
+                return self.__getattribute__(key)
 
 
 def print_help():
