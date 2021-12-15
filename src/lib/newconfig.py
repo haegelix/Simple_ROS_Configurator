@@ -107,15 +107,15 @@ def main():
     print("\nShall I write the file?")
     if helpers.yes_or_no(use_config=False):  # yes
         filename = input("What shall be the filename (please omit the .json)? ")
-        out_file = open("./configs/" + filename + ".json", "w")
+        out_file = open(paths.get_srosc_ws_package_file_path(filename), "w")
         out_file.write(s)
         out_file.close()
 
         print("\nShall I directly build your package?")
         if helpers.yes_or_no(use_config=False):  # yes
-            os.system("bash ./runserver.sh")
-    else:  # no
-        return
+            paths.switch_to_srosc_ws_dir()
+            os.system("srosc run --select=" + filename)
+    print("I'm done. ByeBye!")
 
 
 if __name__ == "__main__":
