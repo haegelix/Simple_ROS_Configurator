@@ -49,7 +49,8 @@ def acceptable_answer_int(answer: int, acceptable: [int]) -> bool:
     return answer in acceptable
 
 
-def modify_and_copy_python_file(pkg_info: packageinfo.PackageInfo, templ_name: str, dest_name: str,
+# TODO annotate type
+def modify_and_copy_python_file(pkg_info, templ_name: str, dest_name: str,
                                 replacements: [(str, str)]):
     # read template file
     in_file = open(paths.get_template_path(templ_name), "r")
@@ -67,7 +68,8 @@ def modify_and_copy_python_file(pkg_info: packageinfo.PackageInfo, templ_name: s
     out_file.close()
 
 
-def register_entry_points(pkg_info: packageinfo.PackageInfo, entries: [EntryPoint]):
+# TODO annotate type
+def register_entry_points(pkg_info, entries: [EntryPoint]):
     """
     TODO doc
     """
