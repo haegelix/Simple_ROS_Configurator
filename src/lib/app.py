@@ -76,7 +76,7 @@ def ui(target):
         pass
     else:
         abort(404)
-    return render_template('templates/ui.html', component=target, uiargs=uiargs)
+    return render_template('ui.html', component=target, uiargs=uiargs)
 
 
 @app.route('/api/<string:target>')
