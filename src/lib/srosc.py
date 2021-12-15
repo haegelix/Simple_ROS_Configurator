@@ -2,6 +2,8 @@
 import sys
 import os
 import subprocess
+from lib.paths import paths
+import newws
 
 
 def run(command, argv):
@@ -15,37 +17,64 @@ def main(argv):
         print_help()
         exit(1)
 
+    paths.switch_to_srosc_lib_dir()
+
     if argv[0] == "new-ws":
         print("NOT YET IMPLEMENTED")
-        run("./new_ws.py", argv[1:])
+        newws.main(argv[1:])
     elif argv[0] == "run":
-        run("./runconfigs.py", argv[1:])
+        run(paths.get_runnable_path("runconfigs.py"), argv[1:])
     elif argv[0] == "new":
-        run("./newconfig.py", argv[1:])
+        run(paths.get_runnable_path("newconfig.py"), argv[1:])
     elif argv[0] == "web":
-        run("./runserver.py", argv[1:])
+        run(paths.get_runnable_path("runserver.py"), argv[1:])
     elif argv[0] == "stat":
-        run("./stats.py", argv[1:])
+        print("NOT YET IMPLEMENTED")
+        run(paths.get_runnable_path("stats.py"), argv[1:])
+    elif argv[0] == "help":
+        if len(argv) > 1:
+            print_sub_help(argv[1])
+        else:
+            print_help()
     else:
         print("Wrong subcommand")
         print_help()
+        exit(1)
+    exit(0)
 
 
-def print_help():
+def print_help() -> None:
     print_version()
+    print("")
+    print_usage()
+    print("")
+    print_subcommands()
+
+
+def print_subcommands() -> None:
+    print("Available subcommands:")
+    print("new-ws        - will create a new workspace")
+    print("run           - will run all config files found in this workspace")
+    print("new           - will create a new config file in this workspace")
+    print("web           - will run the web deamon")
+    print("stat          - will output the current status")
+    print("help          - will display this help")
+    print("help <subcmd> - further help for a specific subcommand")
+
+
+def print_usage() -> None:
     print("Usage:")
     print("srosc <subcommand> [command line flags]")
-    print("")
-    print("Available subcommands:")
-    print("new-ws  - will create a new workspace")
-    print("run     - will run all config files found in this workspace")
-    print("new     - will create a new config file in this workspace")
-    print("web     - will run the web deamon")
-    print("stat    - will output the current status")
 
 
-def print_version():
-    print("Version (TODO)")  # TODO print version
+def print_version() -> None:
+    print("SimpleRosConfigurator Version (TODO)")  # TODO print version
+
+
+def print_sub_help(subcmd):
+    # TODO implement
+    print("Subcommand help:")
+    print("TODO")
 
 
 if __name__ == "__main__":
