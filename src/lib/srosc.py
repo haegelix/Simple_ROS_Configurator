@@ -3,7 +3,9 @@ import sys
 import os
 import subprocess
 from lib.paths import paths
-import newws
+import newworkspace
+import newconfig
+from lib.config import config
 
 
 def run(command, argv):
@@ -20,12 +22,12 @@ def main(argv):
     paths.switch_to_srosc_lib_dir()
 
     if argv[0] == "new-ws":
-        print("NOT YET IMPLEMENTED")
-        newws.main(argv[1:])
+        newworkspace.main(argv[1:])
     elif argv[0] == "run":
         run(paths.get_runnable_path("runconfigs.py"), argv[1:])
     elif argv[0] == "new":
-        run(paths.get_runnable_path("newconfig.py"), argv[1:])
+        config.__parse_file__(paths.get_srosc_ws_configfile_path())
+        newconfig.main()
     elif argv[0] == "web":
         run(paths.get_runnable_path("runserver.py"), argv[1:])
     elif argv[0] == "stat":
