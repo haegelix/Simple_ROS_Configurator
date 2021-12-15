@@ -46,7 +46,7 @@ def main(argv) -> None:
 
     print("I managed to create your workspace.")
     print("The next step is to copy a standard config file to it.")
-    shutil.copy2(paths.get_global_config_path(), os.path.join(".", ws_name))
+    shutil.copy2(paths.get_global_config_path(), ".")
     print("I'm done. Have fun!")
     exit(0)
 
