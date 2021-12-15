@@ -8,7 +8,6 @@ ending_in_json = re.compile(r'[\w -]*[.]json')
 
 
 class Config(object):
-    mode: str
     wspath: str
     foreign_repos_config: str
     rosdistro: str
@@ -28,7 +27,6 @@ class Config(object):
         :param path: String containing the path to the config file.
         """
         conf = json.load(open(path))
-        self.mode = conf["mode"]
         self.wspath = conf["wspath"]
         self.foreign_repos_config = conf["foreign_repos_config"]
         self.ignore_configs = conf["ignore_configs"]
@@ -85,7 +83,6 @@ class Config(object):
 
         s = ""
         s += "ROS-workspace (wspath):       " + self.wspath + "\n"
-        s += "Configurator-mode (mode):     " + self.mode + "\n"
         s += "ROS Distribution (rosdistro): " + self.rosdistro + "\n"
         s += "foreign_repos_config ():      " + self.foreign_repos_config + "\n"
         s += "Ignored config files ():      " + str(self.ignore_configs) + "\n"
