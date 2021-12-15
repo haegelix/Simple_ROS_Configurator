@@ -1,5 +1,10 @@
 import os
-from src.lib.lib.config import config
+
+# static directories
+BIN_DIR = "/usr/local/bin/"
+LIB_DIR = "/usr/local/lib/srosc/"
+CFG_DIR = "/etc/srosc/"
+LOG_DIR = "/var/log/srosc/"
 
 
 class Paths(object):
@@ -7,33 +12,39 @@ class Paths(object):
     Paths will store, manage and switch directories needed for SimpleRosConfigurator.
     This class shall be used as singleton since it's instances values will not change after loading the configuration.
     """
-    srosc = os.getcwd()
+    srosc_ws = os.getcwd()
     srosc_configs = ""
     ros_ws = ""
     ros_ws_src = ""
 
     def __init__(self):
-        if config.wspath[-1] == "/" or config.wspath[-1] == "\\":
-            self.ros_ws = config.wspath[:-1]
-        else:
-            self.ros_ws = config.wspath[:]
         self.ros_ws_src = os.path.join(self.ros_ws, "src")
-        self.srosc_configs = os.path.join(self.srosc, "configs")
+        self.srosc_configs = os.path.join(self.srosc_ws, "configs")
 
     def __str__(self):
         s = ""
-        s += "SimpleROSConfigurator WD: " + self.srosc + "\n"
+        s += "SimpleROSConfigurator WD: " + self.srosc_ws + "\n"
         s += "SimpleROS Config Dir:     " + self.srosc_configs + "\n"
         s += "ROS workspace:            " + self.ros_ws + "\n"
         s += "ROS workspace src-dir:    " + self.ros_ws_src + "\n"
         return s
 
-    def switch_to_configurator_dir(self) -> None:
+    def reallocate_srosc_ws(self):
+        self.srosc_ws = os.getcwd()
+
+    def switch_to_srosc_ws_dir(self) -> None:
         """
         Switch to the root directory of SimpleRosConfigurator
         :return: does not return a value
         """
-        os.chdir(self.srosc)
+        os.chdir(self.srosc_ws)
+
+    def switch_to_srosc_lib_dir(self) -> None:
+        """
+        Switch to the root directory of SimpleRosConfigurator
+        :return: does not return a value
+        """
+        os.chdir(LIB_DIR)
 
     def switch_to_package_dir(self, name) -> None:
         """
@@ -97,7 +108,37 @@ class Paths(object):
         :param name: Name of the template.
         :return: Path.
         """
-        return os.path.join(self.srosc, "template_files", name + ".py")
+        return os.path.join(self.srosc_ws, "template_files", name + ".py")
+
+    def get_global_config_path(self):
+        """
+        Get the path of the global config file
+        """
+        return os.path.join(CFG_DIR, "config.json")
+
+    def get_runnable_path(self, filename: str):
+        """
+        TODO doc
+        """
+        return os.path.join(LIB_DIR, filename)
+
+    def get_srosc_ws_configfile_path(self):
+        """
+        TODO doc
+        """
+        return os.path.join(self.srosc_ws, "config.json")
+
+    def get_srosc_ws_packages_path(self):
+        """
+        TODO doc
+        """
+        return os.path.join(self.srosc_ws, "packages")
+
+    def get_srosc_ws_path(self):
+        """
+        TODO doc
+        """
+        return self.srosc_ws
 
 
 paths = Paths()

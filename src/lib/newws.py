@@ -28,7 +28,14 @@ def main(argv) -> None:
             print("Please enter a valid name.")
 
     try:
+        # create new workpace dir and enter it
         os.mkdir(ws_name)
+        os.chdir(ws_name)
+        paths.reallocate_srosc_ws()
+        print("Made dir", paths.get_srosc_ws_path())
+        # create packages dir inside the new workspace
+        os.mkdir(paths.get_srosc_ws_packages_path())
+        print("Made dir", paths.get_srosc_ws_packages_path())
     except OSError as exc:
         if exc.errno != errno.EEXIST:
             print("Some error just popped up.")
