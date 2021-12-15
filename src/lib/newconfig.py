@@ -4,6 +4,7 @@ import os
 
 import lib.helpers as helpers
 from lib.logadapter import setup_logging
+from lib.paths import paths
 import re
 
 # ^[\w.-]+@([\w-]+.)+[\w-]{2,4}$
@@ -17,7 +18,7 @@ class Obj(object):
 
 
 def main():
-    setup_logging("newconfig.log")
+    setup_logging(paths.get_logfile_path("newconfig.log"))
     pkg = Obj()
     print("So you want to create a config file...")
     print("May I ask you some questions?")

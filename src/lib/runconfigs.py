@@ -148,7 +148,8 @@ def main():
     Checks for availability of ROS2 and the runs the app.
     :return: Nothing.
     """
-    setup_logging("runconfigs.log")
+
+    setup_logging(paths.get_logfile_path("runconfigs.log"))
     if not ros_api.probe_ros():
         logging.info("ROS was not found --> trying to source...")
         ret = os.system("runconfigs.sh")  # TODO pass on argv
