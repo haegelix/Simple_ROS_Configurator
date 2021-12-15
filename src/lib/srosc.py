@@ -78,4 +78,8 @@ def print_sub_help(subcmd):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print("\n\nKilled via KeyboardInterrupt (Ctrl+C). ByeBye!")
+        exit(2)
