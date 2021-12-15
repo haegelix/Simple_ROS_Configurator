@@ -107,4 +107,9 @@ def api(target):
     return 'api worx (with target ' + target + ')'
 
 
-app.run(host='0.0.0.0', port=5000)
+def main():
+    app.run(host='0.0.0.0', port=5000)
+
+
+if __name__ == "__main__":
+    main()
