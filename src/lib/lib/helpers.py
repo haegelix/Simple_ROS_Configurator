@@ -1,11 +1,10 @@
 import os
 import warnings
 
-from src.lib.lib.config import config
-from src.lib.lib.paths import paths
-import src.lib.lib.packageinfo as packageinfo
-from src.lib.lib.logadapter import logging
-from src.lib.lib.entrypoint import EntryPoint
+from lib.config import config
+from lib.paths import paths
+from lib.logadapter import logging
+from lib.entrypoint import EntryPoint
 
 
 def yes_or_no(use_config=True):

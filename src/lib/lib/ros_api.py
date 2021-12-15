@@ -1,6 +1,6 @@
-from src.lib.lib.logadapter import logging
-from src.lib.lib.paths import paths
-import src.lib.lib.packageinfo as packageinfo
+from lib.logadapter import logging
+from lib.paths import paths
+import lib.packageinfo as packageinfo
 import os
 import subprocess
 import re
