@@ -2,6 +2,7 @@ import json
 import sys
 import getopt
 import re
+from lib.paths import paths
 
 ending_in_json = re.compile(r'[\w -]*[.]json')
 
@@ -16,7 +17,7 @@ class Config(object):
     always_yes: bool
     selected_pkg_config: str
 
-    def __init__(self, path="config.json"):
+    def __init__(self, path=paths.get_global_config_path()):
         # load config from file
         self.__parse_file__(path)
         self.__parse_argv__()
