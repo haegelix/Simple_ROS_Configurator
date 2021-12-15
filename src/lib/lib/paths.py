@@ -134,6 +134,12 @@ class Paths(object):
         """
         return os.path.join(self.srosc_ws, "packages")
 
+    def get_srosc_ws_package_file_path(self, name: str):
+        """
+        TODO doc
+        """
+        return os.path.join(self.srosc_ws, "packages", name + ".json")
+
     def get_srosc_ws_path(self):
         """
         TODO doc
