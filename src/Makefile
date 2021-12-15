@@ -70,6 +70,8 @@ setpermissions: checkroot
 	@chmod o+x ${LIB_DIR}runconfigs.py
 	@# text ui
 	@chmod o+x ${LIB_DIR}newconfig.py
+	@# new workspace
+	@chmod o+x ${LIB_DIR}newws.py
 	@# web ui
 	@chmod o+x ${LIB_DIR}runserver.sh
 	@chmod o+x ${LIB_DIR}runserver.py
@@ -81,6 +83,7 @@ setpermissions: checkroot
 	@chmod -R 777 ${LOG_DIR}*
 	@echo Setting permissions... DONE
 
+# TODO create systemctl unit file
 # launch the whole install routine (mainly using other targets)
 .PHONY: install
 install: checkroot makedirs copyfiles createlogs setpermissions
