@@ -37,7 +37,7 @@ class Paths(object):
         Switch to the root directory of SimpleRosConfigurator
         :return: does not return a value
         """
-        os.chdir(self.srosc_ws)
+        os.chdir(self.get_srosc_ws_path())
 
     def switch_to_srosc_lib_dir(self) -> None:
         """
@@ -139,6 +139,13 @@ class Paths(object):
         TODO doc
         """
         return self.srosc_ws
+
+    def get_logfile_path(self, filename: str):
+        """
+        TODO doc
+        :param filename:
+        """
+        return os.path.join(LOG_DIR, filename)
 
 
 paths = Paths()
