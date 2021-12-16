@@ -2,7 +2,7 @@ import json
 import sys
 import getopt
 import re
-from lib.paths import paths
+from lib.paths import paths, get_global_config_path
 
 ending_in_json = re.compile(r'[\w -]*[.]json')
 
@@ -16,10 +16,12 @@ class Config(object):
     always_yes: bool
     selected_pkg_config: str
 
-    def __init__(self, path=paths.get_global_config_path()):
+    def __init__(self, path=get_global_config_path()):
         # load config from file
+        self.selected_pkg_config = ""
         self.__parse_file__(path, fail_on_missing=True)
         self.__parse_argv__()
+        paths.set_ros_ws(self.wspath)
 
     def __parse_file__(self, path: str, fail_on_missing=False):
         """

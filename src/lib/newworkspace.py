@@ -4,7 +4,7 @@ import shutil
 import os
 import re
 import errno
-from lib.paths import paths
+from lib.paths import paths, get_global_config_path
 
 
 name_pattern = re.compile(r"[\w]+")
@@ -46,7 +46,7 @@ def main(argv) -> None:
 
     print("I managed to create your workspace.")
     print("The next step is to copy a standard config file to it.")
-    shutil.copy2(paths.get_global_config_path(), ".")
+    shutil.copy2(get_global_config_path(), ".")
     print("I'm done. Have fun!")
     exit(0)
 

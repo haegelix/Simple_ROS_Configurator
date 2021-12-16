@@ -17,9 +17,12 @@ class Paths(object):
     ros_ws = ""
     ros_ws_src = ""
 
+    def set_ros_ws(self, ros_ws: str):
+        self.ros_ws = ros_ws
+        self.ros_ws_src = os.path.join(ros_ws, "src")
+
     def __init__(self):
-        self.ros_ws_src = os.path.join(self.ros_ws, "src")
-        self.srosc_configs = os.path.join(self.srosc_ws, "configs")
+        self.srosc_configs = os.path.join(self.srosc_ws, "packages")
 
     def __str__(self):
         s = ""

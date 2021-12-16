@@ -4,7 +4,7 @@ import os
 
 import lib.helpers as helpers
 from lib.logadapter import setup_logging
-from lib.paths import paths
+from lib.paths import paths, CFG_DIR
 import re
 
 # ^[\w.-]+@([\w-]+.)+[\w-]{2,4}$

@@ -68,8 +68,7 @@ def create_packages_from_config_files():
     Build all packages defined in the configs.
     """
     # get all filenames and remove the ones to be ignored
-    packages = [j for j in os.listdir(paths.srosc_configs) if j.endswith(".json")]
-    packages.remove(config.foreign_repos_config)
+    packages = [j for j in os.listdir(paths.get_srosc_ws_packages_path()) if j.endswith(".json")]
     for i in config.ignore_configs:
         packages.remove(i)
     logging.info("Found " + str(len(packages)) + " package(s) to build")
@@ -106,9 +105,10 @@ def create_package(filename):
         else:
             raise FileNotFoundError
     except FileNotFoundError:
-        ros_api.create_package(pkg_info)
-        copy_files(pkg_info)
-        ros_api.build_package(pkg_info)
+        pass
+    ros_api.create_package(pkg_info)
+    copy_files(pkg_info)
+    ros_api.build_package(pkg_info)
 
 
 def copy_files(pkg_info: packageinfo.PackageInfo):
