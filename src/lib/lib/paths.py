@@ -7,6 +7,13 @@ CFG_DIR = "/etc/srosc/"
 LOG_DIR = "/var/log/srosc/"
 
 
+def get_global_config_path():
+    """
+    Get the path of the global config file
+    """
+    return os.path.join(CFG_DIR, "config.json")
+
+
 class Paths(object):
     """
     Paths will store, manage and switch directories needed for SimpleRosConfigurator.
@@ -112,12 +119,6 @@ class Paths(object):
         :return: Path.
         """
         return os.path.join(self.srosc_ws, "template_files", name + ".py")
-
-    def get_global_config_path(self):
-        """
-        Get the path of the global config file
-        """
-        return os.path.join(CFG_DIR, "config.json")
 
     def get_runnable_path(self, filename: str):
         """
