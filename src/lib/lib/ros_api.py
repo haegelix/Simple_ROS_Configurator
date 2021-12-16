@@ -4,6 +4,7 @@ import lib.packageinfo as packageinfo
 import os
 import subprocess
 import re
+from lib.packageexception import PackageException
 
 pattern_empty_string = re.compile(r'[\n\t\r _-]*')
 
@@ -70,6 +71,8 @@ def __runcommand(command: str, shortname: str):
     if not len(pattern_empty_string.sub("", str(stderr))) == 0:  # stderr not empty --> log it
         logging.info("STDERR of '" + shortname + "...':\n" + str(stderr))
     logging.info(shortname + " returned code " + str(return_val))
+    if return_val != 0:
+        raise PackageException("Aborted because one step failed.")
 
 
 def probe_ros() -> bool:

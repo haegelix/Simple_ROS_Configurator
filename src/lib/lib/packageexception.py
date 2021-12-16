@@ -1,0 +1,2 @@
+class PackageException(Exception):
+    pass
