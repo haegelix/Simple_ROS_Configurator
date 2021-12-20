@@ -1,8 +1,9 @@
 import os
 import warnings
+import re
 
-from lib.config import config
-from lib.paths import paths
+import lib.config as config
+import lib.paths as paths
 from lib.logadapter import logging
 from lib.entrypoint import EntryPoint
 
@@ -74,11 +75,10 @@ def register_entry_points(pkg_info, entries: [EntryPoint]):
     TODO doc
     """
     cwd = os.getcwd()
-    setup_py_path = paths.get_package_src_path(pkg_info.package_name, "setup.py")
+    setup_py_path = paths.get_ros_workspace_src_package_path(pkg_info.package_name, "setup.py")
 
     logging.debug("setup.py path: " + str(setup_py_path))
     logging.debug("Adding entry_point(s): " + str(entries))
-    logging.debug("DEBUG: " + str(paths.get_package_src_path(pkg_info.package_name)))
 
     # read template file
     in_file = open(setup_py_path, "r")
@@ -108,3 +108,10 @@ def clear_console():
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
     os.system(command)
+
+
+def add_filename_suffix_if_missing(filename: str, suffix: str) -> str:
+    ending = re.compile(r'[\w -]*[.]' + suffix + "$")
+    if not ending.match(filename):
+        return filename + "." + suffix
+    return filename
