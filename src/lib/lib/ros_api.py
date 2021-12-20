@@ -1,5 +1,5 @@
 from lib.logadapter import logging
-from lib.paths import paths
+from lib import paths
 import lib.packageinfo as packageinfo
 import os
 import subprocess
@@ -14,7 +14,7 @@ def create_package(pkg_info: packageinfo.PackageInfo) -> None:
     Creates a new package by using the ros2 executables
     """
     cwd = os.getcwd()
-    paths.switch_to_ws_source_dir()
+    paths.switch_to_ros_workspace_dir()
     command = ("ros2 pkg create --build-type ament_python"
                + " --description \"" + str(pkg_info.package_info.description) + "\""
                + " --license \"" + str(pkg_info.package_info.license) + "\""
@@ -33,7 +33,7 @@ def resolve_dep():
     """
     logging.info("Resolving and installing dependencies...")
     cwd = os.getcwd()
-    os.chdir(paths.ros_ws)
+    os.chdir(paths.get_ros_workspace_path())
     command = "rosdep install -i --from-path src --rosdistro foxy -y"
     __runcommand(command, "rosdep install")
     os.chdir(cwd)
@@ -43,7 +43,7 @@ def resolve_dep():
 def build_package(pkg_info: packageinfo.PackageInfo):
     logging.info("Building the new package...")
     cwd = os.getcwd()
-    os.chdir(paths.ros_ws)
+    os.chdir(paths.get_ros_workspace_path())
     command = "colcon build --packages-select " + pkg_info.package_name
     __runcommand(command, "colcon build")
     os.chdir(cwd)

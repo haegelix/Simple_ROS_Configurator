@@ -1,5 +1,5 @@
 import json
-from lib.paths import paths
+from lib import paths
 
 
 class PackageInfo(object):
@@ -122,7 +122,7 @@ def load_package_config_from_file(filename) -> PackageInfo:
     Load a package config file and store all info in instances of above helper-classes
     :param filename: config file to be loaded
     """
-    in_file = open(paths.get_package_config_path(filename))
+    in_file = open(paths.get_srosc_workspace_package_file_path(filename))
     json_obj = json.load(in_file)
     in_file.close()
     return PackageInfo(json_obj)

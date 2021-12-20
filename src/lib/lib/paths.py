@@ -2,9 +2,20 @@
 Paths will store, manage and switch directories needed for SimpleRosConfigurator.
 This class shall be used as singleton since it's instances values will not change after loading the configuration.
 """
+# external modules
 import os
+
+# custom lib modules
+from lib.vault import vault
 import lib.helpers as helpers
-from vault import vault
+
+
+def get_global_config_path() -> str:
+    return vault.directories.CFG_FILE
+
+
+def get_lib_file_path(filename: str) -> str:
+    return os.path.join(get_lib_path(), filename)
 
 
 def get_lib_path() -> str:
@@ -150,3 +161,10 @@ def switch_to_srosc_workspace_dir() -> None:
     Switch to the current srosc workspace.
     """
     os.chdir(get_srosc_workspace_path())
+
+
+def switch_to_startup_dir() -> None:
+    """
+    Switch to the startup dir.
+    """
+    os.chdir(vault.directories.get_startup_dir())

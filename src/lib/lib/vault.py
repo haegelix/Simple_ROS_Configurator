@@ -14,12 +14,17 @@ class Vault(object):
         """
         DESCRIPTION = {
             'ros2_workspace': "ROS-workspace",
-            'srosc_workspace': "ROS-workspace",
+            'srosc_workspace': "SROSC-workspace",
+            '__startup': "SROSC-workspace",
         }
+
         # path of the ros2 workspace in use
         ros2_workspace: str
         # path of the srosc workspace in use
         srosc_workspace: str
+        # path of the dir the app was started in
+        __startup: str
+
         # static paths
         BIN_DIR = "/usr/local/bin/"
         LIB_DIR = "/usr/local/lib/srosc/"
@@ -29,6 +34,10 @@ class Vault(object):
 
         def __init__(self):
             self.srosc_workspace = os.getcwd()
+            self.__startup = os.getcwd()
+
+        def get_startup_dir(self):
+            return self.__startup
 
     class __Settings(lib.myprettyprint.MyPrettyPrint):
         """

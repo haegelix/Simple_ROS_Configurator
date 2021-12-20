@@ -1,16 +1,54 @@
 #!/usr/bin/python3
-# system wide imports
+# external modules
 import os
 import shutil
+import getopt
 
-# my lib imports
-from lib.config import config
+# custom lib modules
+from lib import config
 from lib.logadapter import logging, setup_logging
-from lib.paths import paths
+from lib import paths
 import lib.packageinfo as packageinfo
 from lib import helpers
 from lib import ros_api
 from lib.entrypoint import EntryPoint
+
+# custom app modules
+import srosc
+
+
+def parse_argv(argv):
+    """
+    Checks for command line parameters and overrides config values.
+    May exit the app.
+    """
+    try:
+        opts, args = getopt.getopt(argv, "iys:", ["intercative", "yes", "select="])
+        # search for valid flags and set config
+        for opt, arg in opts:
+            if opt in ("-i", "--interactive"):
+                config.set_config("always_yes", False)
+                pass  # TODO more interactiveness?
+            elif opt in ("-y", "--yes"):
+                config.set_config("always_yes", True)
+            elif opt in ("-s", "--select"):
+                sel = arg
+                filename = helpers.add_filename_suffix_if_missing(sel, "json")
+                print("Selected config file:", filename)
+                config.set_config("selected_pkg_config", filename)
+            else:
+                pass  # this branch is unreachable
+    except getopt.GetoptError:
+        srosc.print_sub_help("run")
+        exit(2)
+
+
+def print_help():
+    print("Usage:")
+    print("srosc", "run", '[-i | -y] [-s <config_name>]')
+    print("-i --interactive         Force app to interact with you.")
+    print("-y --yes                 Force app to run without interaction. USE WITH CAUTION!")
+    print("-s <cfg> --select=<cfg>  Select specific package to be built. '.json' may be omitted.")
 
 
 def run():
@@ -68,9 +106,7 @@ def create_packages_from_config_files():
     Build all packages defined in the configs.
     """
     # get all filenames and remove the ones to be ignored
-    packages = [j for j in os.listdir(paths.get_srosc_ws_packages_path()) if j.endswith(".json")]
-    for i in config.ignore_configs:
-        packages.remove(i)
+    packages = get_packages_list(config.ignore_configs)
     logging.info("Found " + str(len(packages)) + " package(s) to build")
     pkg_counter = 0
 
@@ -149,7 +185,7 @@ def main():
     :return: Nothing.
     """
 
-    setup_logging(paths.get_logfile_path("runconfigs.log"))
+    setup_logging(get_logfile_path("runconfigs.log"))
     if not ros_api.probe_ros():
         logging.info("ROS was not found --> trying to source...")
         ret = os.system("runconfigs.sh")  # TODO pass on argv

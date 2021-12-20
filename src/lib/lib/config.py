@@ -1,6 +1,9 @@
+# external modules
 import json
 import os
-from vault import vault
+
+# custom lib modules
+from lib.vault import vault
 
 
 def __parse_file(path: str) -> bool:
@@ -30,6 +33,14 @@ def __parse_file(path: str) -> bool:
     return all_in
 
 
+def set_config(name, value):
+    vault.settings.__setattr__(name, value)
+
+
+def ignore_configs():
+    return vault.settings.ignore_configs
+
+
 def parse_workspace_config():
     """
     Parse the workspace config file.
@@ -41,6 +52,10 @@ def parse_workspace_config():
         return True
     else:
         return False
+
+
+def is_single_run_mode():
+    return vault.settings.selected_pkg_config
 
 
 # load config from root config

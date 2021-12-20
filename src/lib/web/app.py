@@ -1,15 +1,18 @@
 #!/usr/bin/python3
+# external modules
 import json
 import os
 import traceback
-
-import rclpy
 import io
 import random
-from lib.config import config
 
-from flask import Flask, escape, request, render_template, abort, redirect, Response
+# flask & websocket modules
+from flask import Flask, render_template, session, copy_current_request_context, request, abort, redirect, Response
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_socketio import SocketIO, emit, disconnect
+
+# ros modules
+import rclpy
 from rclpy.node import Node
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -32,11 +35,6 @@ ros_node: Node
 socket_ = SocketIO(app, async_mode=async_mode)
 
 
-# @app.route('/')
-# def hello():
-#    name = request.args.get("name", "World")
-#    return f'Hello, {escape(name)}!'
-
 # WEBSOCKET
 @app.route('/index')
 def index():
@@ -45,12 +43,12 @@ def index():
 
 @socket_.on('get_packages_list', namespace='/package')
 def get_packages_list():
-    emit('packages_list', {'list': get_packages_list(config.ignore_configs)})
+    emit('packages_list', {'list': get_packages_list(config.ignore_configs())})
 
 
 @socket_.on('get_package', namespace='/package')
 def get_package(message):
-    cont = json.load(open(paths.get_srosc_ws_package_file_path(message['filename'])))
+    cont = json.load(open(paths.get_srosc_workspace_package_file_path(message['filename'])))
     emit('package', {'data': cont})
 
 
@@ -78,8 +76,8 @@ def disconnect_request():
 def newpackage(message):
     try:
         obj = message['data']
-        filename = message['filename']
-        out_file = open(paths.get_srosc_ws_package_file_path(filename), "w")
+        filename = message['data']['package_name']
+        out_file = open(paths.get_srosc_workspace_package_file_path(filename), "w")
         out_file.write(json.dumps(obj))
         out_file.close()
         emit('newpackage', {'status': 'done'})

@@ -4,7 +4,7 @@ import os
 
 import lib.helpers as helpers
 from lib.logadapter import setup_logging
-from lib.paths import paths, CFG_DIR
+import lib.paths as paths
 import re
 
 # ^[\w.-]+@([\w-]+.)+[\w-]{2,4}$
@@ -18,7 +18,9 @@ class Obj(object):
 
 
 def main():
+    # setup logging
     setup_logging(paths.get_logfile_path("newconfig.log"))
+
     pkg = Obj()
     print("So you want to create a config file...")
     print("May I ask you some questions?")
@@ -45,11 +47,6 @@ def main():
               "- y must contain at least one character\n"
               "- z must only contain characters and may have length between 2 and 16\n"
               "As RegEx: " + mail_pattern)
-
-    # Auto-add some currently unchangeable values. # TODO make changeable
-    pkg.package_info.test_depends = ["ament_copyright", "ament_flake8", "ament_pep257", "python3-pytest"]
-    pkg.package_info.exec_depends = ["rclpy", "std_msgs"]
-    pkg.additional_imports = []
 
     print("Shall there be sub(s)?")
     pkg.subs = []
@@ -100,58 +97,27 @@ def main():
         print("Shall there be more pubs?")
         pass
 
+    # Auto-add some currently unchangeable values. # TODO make changeable
+    pkg.package_info.test_depends = ["ament_copyright", "ament_flake8", "ament_pep257", "python3-pytest"]
+    pkg.package_info.exec_depends = ["rclpy", "std_msgs"]
+    pkg.additional_imports = []
+
     # write to file
     print("So this is what I'd write to a file:")
     s = pkg.to_json()
     print(s)
+    print("It will be named", pkg.package_name + ".json")
     print("\nShall I write the file?")
     if helpers.yes_or_no(use_config=False):  # yes
-        filename = input("What shall be the filename (please omit the .json)? ")
-        out_file = open(paths.get_srosc_ws_package_file_path(filename), "w")
+        out_file = open(paths.get_srosc_workspace_package_file_path(pkg.package_name), "w")
         out_file.write(s)
         out_file.close()
 
         print("\nShall I directly build your package?")
         if helpers.yes_or_no(use_config=False):  # yes
-            paths.switch_to_srosc_ws_dir()
-            os.system("srosc run --select=" + filename)
+            os.system("srosc run --select=" + pkg.package_name)
     print("I'm done. ByeBye!")
 
 
 if __name__ == "__main__":
     main()
-
-"""
-{
-  "package_name": "pub_button",
-  "package_info": {
-    "version": "0.0.1",
-    "description": "Description of the pub-package",
-    "maintainer_mail": "test@test.de",
-    "maintainer": "First Name",
-    "license": "None yet",
-    "test_depends": [
-      "ament_copyright",
-      "ament_flake8",
-      "ament_pep257",
-      "python3-pytest"
-    ],
-    "exec_depends": [
-      "rclpy",
-      "std_msgs"
-    ]
-  },
-  "subs": [
-  ],
-  "pubs": [
-    {
-      "node_name": "example",
-      "topic": "topic",
-      "type": "std_msgs.msg.String",
-      "src": "-button-"
-    }
-  ],
-  "additional_imports": [
-  ]
-}
-"""

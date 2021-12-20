@@ -1,14 +1,18 @@
 #!/usr/bin/python3
+# external modules
 import sys
-import os
 import subprocess
-from lib.paths import paths
+
+# custom lib modules
+from lib import config
+from lib import paths
+
+# custom app modules
 import newworkspace
 import newconfig
 import runconfigs
 import stats
-import app as webserver
-from lib.config import config
+from web import app as webserver
 
 
 def run(command, argv):
@@ -22,12 +26,11 @@ def main(argv):
         print_help()
         exit(1)
 
-    paths.switch_to_srosc_lib_dir()
-
     if argv[0] == "new-ws":
         newworkspace.main(argv[1:])
     elif argv[0] == "run":
         config.parse_workspace_config()
+        runconfigs.parse_argv(argv[1:])
         runconfigs.main()
     elif argv[0] == "new":
         config.parse_workspace_config()
@@ -38,7 +41,7 @@ def main(argv):
     elif argv[0] == "stat":
         config.parse_workspace_config()
         stats.main(argv[1:])
-    elif argv[0] == "help":
+    elif argv[0] == "help" or argv[0] == "--help":
         if len(argv) > 1:
             print_sub_help(argv[1])
         else:
@@ -47,7 +50,6 @@ def main(argv):
         print("Wrong subcommand")
         print_help()
         exit(1)
-    exit(0)
 
 
 def print_help() -> None:
@@ -75,13 +77,31 @@ def print_usage() -> None:
 
 
 def print_version() -> None:
-    print("SimpleRosConfigurator Version (TODO)")  # TODO print version
+    file = open(paths.get_lib_file_path(".version"), "r")
+    v = file.read()
+    print("You are using version", v, "of SimpleRosConfigurator.")
+    file.close()
 
 
 def print_sub_help(subcmd):
-    # TODO implement
-    print("Subcommand help:")
-    print("TODO")
+    print("Subcommand help:", "srosc", subcmd)
+    print("")
+    if subcmd == "new-ws":
+        # newworkspace.print_help()  # TODO
+        print("Not yet implemented this help entry.")
+    elif subcmd == "run":
+        runconfigs.print_help()
+    elif subcmd == "new":
+        # newconfig.print_help()  # TODO
+        print("Not yet implemented this help entry.")
+    elif subcmd == "web":
+        # webserver.print_help()  # TODO
+        print("Not yet implemented this help entry.")
+    elif subcmd == "stat":
+        # stats.print_help()  # TODO
+        print("Not yet implemented this help entry.")
+    print("")
+    print_version()
 
 
 if __name__ == "__main__":
@@ -89,3 +109,4 @@ if __name__ == "__main__":
         main(sys.argv[1:])
     except KeyboardInterrupt:
         exit("\n\nKilled via KeyboardInterrupt (Ctrl+C). ByeBye!")
+    print("Thanks for using. ByeBye!")
