@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ component }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <link rel="icon" href="/static/img/favicon.png">
+    <script src="/static/js/axios.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/helpers.js"></script>
+</head>
+<body>
+{% include 'navbar.html' %}
+{% include 'ui_'+component+'.html' %}
+</body>
+</html>

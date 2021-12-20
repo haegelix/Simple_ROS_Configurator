@@ -1,4 +1,4 @@
-const api = new API()
+//const api = new API()
 const helpers = new HELPERS()
 
 function loadTopics(){

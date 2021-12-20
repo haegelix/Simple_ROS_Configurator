@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Socket-Test</title>
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("DOMContentLoaded", setup)
+
+        function userlog(s){
+            const log = document.getElementById("log")
+            log.append(s)
+            log.append(document.createElement("br"))
+        }
+
+        function setup () {
+            const namespace = '/package';
+            let socket = io(namespace);
+
+            socket.on('connect', function() {
+                userlog("WebSocket connected!")
+            });
+
+            document.getElementById("broadcast").onsubmit = function () {
+                socket.emit('my_broadcast_event', {data: $('#broadcast_data').val()})
+                return false
+            }
+
+            document.getElementById("get_packages_list").onsubmit = function () {
+                socket.emit('get_packages_list')
+                return false
+            }
+
+            socket.on('packages_list', function(msg, cb) {
+                userlog(msg.list.toString())
+                if (cb) // callback?
+                    cb();
+            });
+        }
+    </script>
+</head>
+<body style="background-color:white;">
+
+    <h1 style="background-color:white;">Socket</h1>
+    <form id="emit" method="POST" action='#'>
+        <label for="emit_data"></label>
+        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+        <input type="submit" value="Send Message">
+    </form>
+    <form id="broadcast" method="POST" action='#'>
+        <label for="broadcast_data"></label>
+        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+        <input type="submit" value="Send Broadcast Message">
+    </form>
+
+    <form id="disconnect" method="POST" action="#">
+        <input type="submit" value="Disconnect Server">
+    </form>
+
+    <form id="get_packages_list" method="POST" action="#">
+        <input type="submit" value="PKG LIST">
+    </form>
+    <h2 style="background-color:white;">Logs</h2>
+    <div id="log" ></div>
+</body>
+</html>

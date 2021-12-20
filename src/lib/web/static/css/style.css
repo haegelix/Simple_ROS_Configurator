@@ -39,3 +39,37 @@ ul#navbar li a#startstop:hover {
 a.active {
   background-color: #666;
 }
+
+
+/* newpackage styles start */
+
+fieldset.tableform {
+  display: table;
+  margin: 10px;
+}
+fieldset.tableform p {
+  display: table-row;
+  margin: 10px;
+}
+fieldset.tableform p label {
+  display: table-cell;
+  padding: 5px;
+  vertical-align: middle;
+}
+fieldset.tableform p input {
+  display: table-cell;
+  padding: 5px;
+  margin: 10px;
+}
+fieldset.tableform p textarea {
+  display: table-cell;
+  padding: 5px;
+  margin: 10px;
+}
+fieldset.tableform p p {
+  display: table-cell;
+  padding: 5px;
+  margin: 10px;
+}
+
+/* newpackage styles end */
