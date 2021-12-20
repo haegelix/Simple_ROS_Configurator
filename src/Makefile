@@ -83,10 +83,15 @@ setpermissions: checkroot
 	@chmod -R 777 ${LOG_DIR}*
 	@echo Setting permissions... DONE
 
+.PHONY: setversion
+setversion: checkroot
+	@echo Setting version file to current version.
+	@echo ${PKG_VERSION} > ${LIB_DIR}.version
+
 # TODO create systemctl unit file
 # launch the whole install routine (mainly using other targets)
 .PHONY: install
-install: checkroot makedirs copyfiles createlogs setpermissions
+install: checkroot makedirs copyfiles createlogs setpermissions setversion
 	@echo Installing... DONE
 
 # pack a debian package
