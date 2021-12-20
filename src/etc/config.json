@@ -1,11 +1,7 @@
 {
   "type": "srosc/config",
-  "wspath": "/home/ubuntu/ros_ws2/",
-  "foreign_repos_config": "foreign_repos.json",
-  "ignore_configs": [
-    "sub.json",
-    "pub.json"
-  ],
+  "ros2_workspace": "/home/ubuntu/ros_ws2/",
+  "ignore_configs": [],
   "rosdistro": "foxy",
   "ros_source_path": "/opt/ros/foxy/setup.bash",
   "simple_ros_configurator_src_link": "https://github.com/haegelix/Simple_ROS_Configurator",
