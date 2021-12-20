@@ -15,24 +15,13 @@ from flask_socketio import SocketIO, emit, disconnect
 import rclpy
 from rclpy.node import Node
 
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-
-# WEBSOCKET
-from flask import Flask, render_template, session, copy_current_request_context
-from flask_socketio import SocketIO, emit, disconnect
-from threading import Lock
-
-import lib.paths as paths
-from lib.paths import get_packages_list
-
-async_mode = None
-# WEBSOCKET
-
+# custom lib modules
+from lib import config
+from lib import paths
 
 app = Flask(__name__)
 ros_node: Node
-socket_ = SocketIO(app, async_mode=async_mode)
+socket_ = SocketIO(app, async_mode=None)
 
 
 # WEBSOCKET
@@ -96,23 +85,6 @@ def rootroute():
 @app.route('/ui/')
 def uiroot():
     return redirect("/ui/home/", 301)
-
-
-@app.route('/graph.png')
-def graphsvg():
-    fig = create_figure()
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
-
-
-def create_figure():
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    xs = range(500)
-    ys = [random.randint(1, 150) for x in xs]
-    axis.plot(xs, ys)
-    return fig
 
 
 @app.route('/ui/<string:target>/')
