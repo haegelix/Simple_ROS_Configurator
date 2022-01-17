@@ -4,23 +4,42 @@ export PUPPETEER_SKIP_DOWNLOAD=true
 .PHONY: all
 all: install
 
-# jQuery
-./jquery/.gitignore:
+
+## JQUERY
+# clone if not found
+./jquery:
 	@echo Cloning jQuery
 	@git clone https://github.com/jquery/jquery.git
 
-jquery.js: ./jquery/.gitignore
+# attempt an update
+./jquery/.git/FETCH_HEAD: | ./jquery
+	@echo Updating jQuery
+	@cd jquery/ && git pull
+
+# if changed --> recompile
+jquery.js: ./jquery/.git/FETCH_HEAD
+	@echo Building jQuery
 	@cd jquery/ && npm install && npm run build
 	@cp jquery/dist/jquery.js jquery.js
 
-# vis-network
-./vis-network/.gitignore:
+
+## vis-network
+# clone if not found
+./vis-network:
 	@echo Cloning vis-network
 	@git clone https://github.com/visjs/vis-network.git
 
-vis-network.js: ./vis-network/.gitignore
+# attempt an update
+./vis-network/.git/FETCH_HEAD: | ./vis-network
+	@echo Updating vis-network
+	@cd vis-network/ && git pull
+
+# if changed --> recompile
+vis-network.js: ./vis-network/.git/FETCH_HEAD
+	@echo Building vis-network
 	@cd vis-network/ && npm install && npm run build
 	@cp vis-network/dist/vis-network.js vis-network.js
+
 
 # install
 .PHONY: install
