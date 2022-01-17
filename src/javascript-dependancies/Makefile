@@ -2,8 +2,10 @@
 export PUPPETEER_SKIP_DOWNLOAD=true
 
 .PHONY: all
-all: install
+all: build
 
+.PHONY: build
+build: jquery.js vis-network.js
 
 ## JQUERY
 # clone if not found
@@ -43,6 +45,6 @@ vis-network.js: ./vis-network/.git/FETCH_HEAD
 
 # install
 .PHONY: install
-install: jquery.js vis-network.js
+install: build
 	@cp jquery.js ${LIB_DIR}/web/static/js/
 	@cp vis-network.js ${LIB_DIR}/web/static/js/
