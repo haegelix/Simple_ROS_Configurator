@@ -1,51 +1,34 @@
-# needed to suppress specific download for js-package not available on headless systems
-export PUPPETEER_SKIP_DOWNLOAD=true
-
 .PHONY: all
 all: build
 
 .PHONY: build
-build: jquery.js vis-network.js vis-network.js.map
+build: jquery.js vis-network.js vis-network.js.map socket.io.js socket.io.js.map
 
-## JQUERY
-# clone if not found
-./jquery:
-	@echo Cloning jQuery
-	@git clone https://github.com/jquery/jquery.git
-
-# attempt an update
-./jquery/.git/FETCH_HEAD: | ./jquery
-	@echo Updating jQuery
-	@cd jquery/ && git pull
-
-# if changed --> recompile
-jquery.js: ./jquery/.git/FETCH_HEAD
-	@echo Building jQuery
-	@cd jquery/ && npm install && npm run build
-	@cp jquery/dist/jquery.js jquery.js
-
+## jquery.js
+# download
+jquery.js:
+	@echo Building vis-network
+	@wget https://unpkg.com/jquery.js@3.6.0/dist/jquery.js
 
 ## vis-network
-# clone if not found
-./vis-network:
-	@echo Cloning vis-network
-	@git clone https://github.com/visjs/vis-network.git
-
-# attempt an update
-./vis-network/.git/FETCH_HEAD: | ./vis-network
-	@echo Updating vis-network
-	@cd vis-network/ && git pull
-
-# if changed --> recompile
-vis-network.js vis-network.js.map: ./vis-network/.git/FETCH_HEAD
+# download
+vis-network.js vis-network.js.map:
 	@echo Building vis-network
-	@cd vis-network/ && npm install && npm run build
-	@cp vis-network/dist/vis-network.js vis-network.js
-	@cp vis-network/dist/vis-network.js.map vis-network.js.map
+	@wget https://unpkg.com/vis-network@9.1.0/dist/vis-network.js
+	@wget https://unpkg.com/vis-network@9.1.0/dist/vis-network.js.map
 
+## socketio-client
+# download
+socket.io.js socket.io.js.map:
+	@echo Downloading socket.io
+	@wget https://unpkg.com/socket.io-client@4.4.1/dist/socket.io.js
+	@wget https://unpkg.com/socket.io-client@4.4.1/dist/socket.io.js.map
 
 # install
 .PHONY: install
 install: build
 	@cp jquery.js ${LIB_DIR}/web/static/js/
 	@cp vis-network.js ${LIB_DIR}/web/static/js/
+	@cp vis-network.js.map ${LIB_DIR}/web/static/js/
+	@cp socket.io.js ${LIB_DIR}/web/static/js/
+	@cp socket.io.js.map ${LIB_DIR}/web/static/js/
