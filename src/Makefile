@@ -16,7 +16,7 @@ SUGGESTS=
 CONFLICTS=
 REPLACES=
 INSTALL=no
-MORE_FLAGS="--nodoc --backup"
+MORE_FLAGS=--nodoc --backup
 
 # just a dummy to catch all simple calls to "make" without given target
 .PHONY: dummy
