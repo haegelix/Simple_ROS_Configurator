@@ -7,7 +7,9 @@ export LOG_DIR=/var/log/srosc/
 # used to pack a .deb-archive ready to get installed
 .PHONY: pack
 pack: src/
+	@echo Copying from src/ to build/
 	@cp -r ./src/* ./build/
+	@echo Packaging...
 	@cd ./build/ && $(MAKE) pack
 
 # delete all files that were shipped within the package
