@@ -7,16 +7,16 @@ PKG_LICENSE="To Be Decided"
 PKG_GROUP=srosc
 PKG_SOURCE=srosc
 PKG_ALT_SOURCE=
-PACK_DIR=..
+PAKDIR=..
 MAINTAINER="haegelix@yahoo.de"
 PROVIDES=srosc
-REQUIRES=dash
+REQUIRES="dash npm git"
 RECOMMENDS=
 SUGGESTS=
 CONFLICTS=
 REPLACES=
 INSTALL=no
-MORE_FLAGS=--nodoc
+MORE_FLAGS="--nodoc --backup"
 
 # just a dummy to catch all simple calls to "make" without given target
 .PHONY: dummy
@@ -42,13 +42,18 @@ makedirs: checkroot
 	@echo Making dirs... DONE
 
 # copy all files to the correct directories
-.PHONY: copyfiles
-copyfiles: checkroot
+.PHONY: copy_static_files
+copy_static_files: checkroot
 	@echo Copying files...
 	@cp ./bin/srosc ${BIN_DIR}
 	@cp -r ./lib/* ${LIB_DIR}
 	@cp -r ./etc/* ${CFG_DIR}
 	@echo Copying files... DONE
+
+# install js dependancies
+.PHONY: install_js_dependancies
+install_js_dependancies:
+	@cd ./javascript-dependancies/ && $(MAKE) install
 
 # create empty logfiles
 .PHONY: createlogs
@@ -91,7 +96,7 @@ setversion: checkroot
 # TODO create systemctl unit file
 # launch the whole install routine (mainly using other targets)
 .PHONY: install
-install: checkroot makedirs copyfiles createlogs setpermissions setversion
+install: checkroot makedirs copy_static_files install_js_dependancies createlogs setpermissions setversion
 	@echo Installing... DONE
 
 # pack a debian package
@@ -99,6 +104,6 @@ install: checkroot makedirs copyfiles createlogs setpermissions setversion
 pack:
 	checkinstall -y --pkgname=${PKG_NAME} --pkgversion=${PKG_VERSION} --pkgarch=${PKG_ARCH} \
 	--pkgrelease=${PKG_RELEASE} --pkglicense=${PKG_LICENSE} --pkggroup=${PKG_GROUP} --pkgsource=${PKG_SOURCE} \
-	--pkgaltsource=${PKG_ALT_SOURCE} --pakdir=${PACK_DIR} --maintainer=${MAINTAINER} --provides=${PROVIDES} \
+	--pkgaltsource=${PKG_ALT_SOURCE} --pakdir=${PAKDIR} --maintainer=${MAINTAINER} --provides=${PROVIDES} \
 	--requires=${REQUIRES} --recommends=${RECOMMENDS} --suggests=${SUGGESTS} --conflicts=${CONFLICTS} \
 	--replaces=${REPLACES} --install=${INSTALL} ${MORE_FLAGS}

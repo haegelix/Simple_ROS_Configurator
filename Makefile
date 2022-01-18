@@ -6,11 +6,12 @@ export LOG_DIR=/var/log/srosc/
 
 # used to pack a .deb-archive ready to get installed
 .PHONY: pack
-pack:
-	@cd ./src/ && $(MAKE) pack
+pack: src/
+	@cp -r ./src/* ./build/
+	@cd ./build/ && $(MAKE) pack
 
 # delete all files that were shipped within the package
-.PHONY: dev_clean_install
+.PHONY: clean_install
 clean_install:
 	@rm -rvf ${CFG_DIR}
 	@rm -rvf ${LOG_DIR}
