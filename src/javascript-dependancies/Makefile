@@ -5,7 +5,7 @@ export PUPPETEER_SKIP_DOWNLOAD=true
 all: build
 
 .PHONY: build
-build: jquery.js vis-network.js
+build: jquery.js vis-network.js vis-network.js.map
 
 ## JQUERY
 # clone if not found
@@ -37,10 +37,11 @@ jquery.js: ./jquery/.git/FETCH_HEAD
 	@cd vis-network/ && git pull
 
 # if changed --> recompile
-vis-network.js: ./vis-network/.git/FETCH_HEAD
+vis-network.js vis-network.js.map: ./vis-network/.git/FETCH_HEAD
 	@echo Building vis-network
 	@cd vis-network/ && npm install && npm run build
 	@cp vis-network/dist/vis-network.js vis-network.js
+	@cp vis-network/dist/vis-network.js.map vis-network.js.map
 
 
 # install
