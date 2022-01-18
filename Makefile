@@ -22,4 +22,4 @@ clean_install:
 
 .PHONY: clean
 clean:
-	@cd ./build/ && rm -rvf !(.gitignore)
+	@cd ./build/ && find . ! -name .gitignore -delete
