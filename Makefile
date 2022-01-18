@@ -8,7 +8,7 @@ export LOG_DIR=/var/log/srosc/
 .PHONY: pack
 pack: src/
 	@echo Copying from src/ to build/
-	@cp -r ./src/* ./build/
+	@cp -r -u ./src/* ./build/
 	@echo Packaging...
 	@cd ./build/ && $(MAKE) pack
 

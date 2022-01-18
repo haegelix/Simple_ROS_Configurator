@@ -71,14 +71,12 @@ setpermissions: checkroot
 	@chmod o+x ${BIN_DIR}srosc
 	@chmod o+x ${LIB_DIR}srosc.py
 	@# runconfigs
-	@chmod o+x ${LIB_DIR}runconfigs.sh
 	@chmod o+x ${LIB_DIR}runconfigs.py
 	@# text ui
 	@chmod o+x ${LIB_DIR}newconfig.py
 	@# new workspace
 	@chmod o+x ${LIB_DIR}newws.py
 	@# web ui
-	@chmod o+x ${LIB_DIR}runserver.sh
 	@chmod o+x ${LIB_DIR}runserver.py
 	@chmod o+x ${LIB_DIR}app.py
 	@# config
