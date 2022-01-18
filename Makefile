@@ -19,3 +19,7 @@ clean_install:
 	@rm -rvf ${LOG_DIR}
 	@rm -rvf ${LIB_DIR}
 	@rm -rvf ${BIN_DIR}srosc
+
+.PHONY: clean
+clean:
+	@cd ./build/ && rm -rvf !(.gitignore)
