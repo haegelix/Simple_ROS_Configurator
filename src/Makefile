@@ -75,7 +75,7 @@ setpermissions: checkroot
 	@# text ui
 	@chmod o+x ${LIB_DIR}newconfig.py
 	@# new workspace
-	@chmod o+x ${LIB_DIR}newws.py
+	@chmod o+x ${LIB_DIR}newworkspace.py
 	@# web ui
 	@chmod o+x ${LIB_DIR}runserver.py
 	@chmod o+x ${LIB_DIR}app.py
