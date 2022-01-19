@@ -107,3 +107,4 @@ build:
 	@cd ./javascript-dependancies/ && $(MAKE) build
 	@echo Setting version file to current version...
 	@echo ${PKG_VERSION} > ./lib/.version
+	@echo ${PKG_VERSION} > ./lib/web/templates/.version
