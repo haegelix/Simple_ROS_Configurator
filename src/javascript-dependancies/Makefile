@@ -2,13 +2,20 @@
 all: build
 
 .PHONY: build
-build: jquery.js vis-network.js vis-network.js.map socket.io.js socket.io.js.map
+build: jquery.js vis-network.js vis-network.js.map socket.io.js socket.io.js.map jquery-ui.js jquery-ui.css
 
 ## jquery.js
 # download
 jquery.js:
-	@echo Building vis-network
+	@echo Downloading jquery
 	@wget https://unpkg.com/jquery@3.6.0/dist/jquery.js
+
+## jquery-ui
+# download
+jquery-ui.js jquery-ui.css:
+	@echo Downloading jquery-ui
+	@wget https://unpkg.com/jquery-ui-css@1.11.5/jquery-ui.js
+	@wget https://unpkg.com/jquery-ui-css@1.11.5/jquery-ui.css
 
 ## vis-network
 # download
@@ -27,8 +34,8 @@ socket.io.js socket.io.js.map:
 # install
 .PHONY: install
 install: build
-	@cp jquery.js ${LIB_DIR}/web/static/js/
-	@cp vis-network.js ${LIB_DIR}/web/static/js/
-	@cp vis-network.js.map ${LIB_DIR}/web/static/js/
-	@cp socket.io.js ${LIB_DIR}/web/static/js/
-	@cp socket.io.js.map ${LIB_DIR}/web/static/js/
+	# JavaScript
+	@cp *.js ${LIB_DIR}/web/static/js/
+	@cp *.js.map ${LIB_DIR}/web/static/js/
+	# CSS
+	@cp *.css ${LIB_DIR}/web/static/css/
