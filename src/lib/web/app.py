@@ -32,7 +32,7 @@ def index():
 
 @socket_.on('get_packages_list', namespace='/package')
 def get_packages_list():
-    emit('packages_list', {'list': get_packages_list(config.ignore_configs())})
+    emit('packages_list', {'list': paths.get_srosc_packagefiles_list()})
 
 
 @socket_.on('get_package', namespace='/package')
