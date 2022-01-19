@@ -86,15 +86,10 @@ setpermissions: checkroot
 	@chmod -R 777 ${LOG_DIR}*
 	@echo Setting permissions... DONE
 
-.PHONY: setversion
-setversion: checkroot
-	@echo Setting version file to current version.
-	@echo ${PKG_VERSION} > ${LIB_DIR}.version
-
 # TODO create systemctl unit file
 # launch the whole install routine (mainly using other targets)
 .PHONY: install
-install: checkroot makedirs copy_static_files install_js_dependancies createlogs setpermissions setversion
+install: checkroot makedirs copy_static_files install_js_dependancies createlogs setpermissions
 	@echo Installing... DONE
 
 # pack a debian package
@@ -105,3 +100,10 @@ pack:
 	--pkgaltsource=${PKG_ALT_SOURCE} --pakdir=${PAKDIR} --maintainer=${MAINTAINER} --provides=${PROVIDES} \
 	--requires=${REQUIRES} --recommends=${RECOMMENDS} --suggests=${SUGGESTS} --conflicts=${CONFLICTS} \
 	--replaces=${REPLACES} --install=${INSTALL} ${MORE_FLAGS}
+
+.PHONY: build
+build:
+	@echo Building...
+	@cd ./javascript-dependancies/ && $(MAKE) build
+	@echo Setting version file to current version...
+	@echo ${PKG_VERSION} > .version

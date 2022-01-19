@@ -16,6 +16,8 @@ build/: src/
 	@echo Copying from src/ to build/
 	@mkdir build
 	@cp -r -u ./src/* ./build/
+	@echo Start building...
+	@cd ./build/ && $(MAKE) build
 
 # delete all files that were shipped within the package
 .PHONY: clean_install
