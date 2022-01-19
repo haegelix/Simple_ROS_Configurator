@@ -7,10 +7,12 @@
     <link rel="icon" href="/static/img/favicon.png">
     <script src="/static/js/axios.js"></script>
     <script src="/static/js/api.js"></script>
-    <script src="/static/js/helpers.js"></script>
+    <script src="/static/js/jquery.js"></script>
 </head>
 <body>
 {% include 'navbar.html' %}
 {% include 'ui_'+component+'.html' %}
+<br><br>
+<span style="font-weight: bold">SROSC-Version: {% include '.version' %}</span>
 </body>
 </html>
