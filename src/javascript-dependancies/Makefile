@@ -2,7 +2,7 @@
 all: build
 
 .PHONY: build
-build: jquery.js vis-network.js vis-network.js.map socket.io.js socket.io.js.map jquery-ui.js jquery-ui.css
+build: jquery.js vis-network.js vis-network.js.map socket.io.js socket.io.js.map jquery-ui.js jquery-ui.css jquery-migrate.js
 
 ## jquery.js
 # download
@@ -16,6 +16,12 @@ jquery-ui.js jquery-ui.css:
 	@echo Downloading jquery-ui
 	@wget https://unpkg.com/jquery-ui-css@1.11.5/jquery-ui.js
 	@wget https://unpkg.com/jquery-ui-css@1.11.5/jquery-ui.css
+
+## jquery-migrate
+# download
+jquery-migrate.js:
+	@echo Downloading jquery-ui
+	@wget https://unpkg.com/jquery-migrate@3.3.2/dist/jquery-migrate.js
 
 ## vis-network
 # download

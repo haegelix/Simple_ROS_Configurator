@@ -1,3 +1,3 @@
 *.js
-jquery/
-vis-network/
+*.js.map
+*.css
