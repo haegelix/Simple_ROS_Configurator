@@ -1,0 +1,107 @@
+<dialog id="new_node_dialog">
+    <h2>New node</h2>
+    <p class="validateTips">All form fields are required.</p>
+    <label for="new_node_type">Type of node: </label>
+    <select id="new_node_type" onchange="new_node_type_changed()">
+        <option value="pub">Publisher</option>
+        <option value="sub">Subscriber</option>
+    </select>
+    <br><br>
+    <form id="new_node_form">
+        <fieldset>
+            <table style="width: 100%" id="new_node_pub">
+                <tr>
+                    <th>
+                        <label for="pub_node_name">node_name</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_node_name" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_topic">topic</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_topic" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+
+                        <label for="pub_type">type</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_type" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_src">src</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_src" value="">
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%" id="new_node_sub">
+                <tr>
+                    <th>
+                        <label for="sub_node_name">node_name</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_node_name" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_topic">topic</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_topic" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+
+                        <label for="sub_type">type</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_type" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_callback">callback</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_callback" value="">
+                    </td>
+                </tr>
+            </table>
+            <input type="button" value="Close" onclick="close_new_node_dialog()">
+            <input type="reset" value="Reset">
+            <input type="submit" value="Create node">
+        </fieldset>
+    </form>
+    <code>
+        Available message sources:
+        <br>
+        -stdin- This will send std_msgs.msg.String messages containing the content of stdin
+        <br>
+        -button- This will send std_msgs.msg.String messages whenever button (GPIO2) is pressed/released
+        <br>
+        <br>
+        Available message types:
+        <br>
+        std_msgs.msg.{ Bool | Byte | ByteMultiArray | Char | ColorRGBA | Duration | Empty | Float32
+        | Float32MultiArray | Float64 | Float64MultiArray | Header | Int16 | Int16MultiArray | Int32
+        | Int32MultiArray | Int64 | Int64MultiArray | Int8 | Int8MultiArray | MultiArrayDimension
+        | MultiArrayLayout | String | Time | UInt16 | UInt16MultiArray | UInt32 | UInt32MultiArray
+        | UInt64 | UInt64MultiArray | UInt8 | UInt8MultiArray }
+    </code>
+</dialog>
+
+<button onclick="open_new_node_dialog()">Create node</button>
+
+<script src="/static/js/dialog_newnode.js"></script>
