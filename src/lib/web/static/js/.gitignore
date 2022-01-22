@@ -1,2 +1,5 @@
 jquery.*
+jquery-ui.*
+jquery-migrate.*
 vis-network.*
+socket.io.*
