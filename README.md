@@ -1,3 +1,11 @@
+## How to install rolling dev version 
+by install script
+<pre><code>bash <(wget -qO- https://raw.githubusercontent.com/haegelix/Simple_ROS_Configurator/main/install-dev.sh)</code></pre>
+
+## How to install packaged version
+by install script
+<pre><code>bash <(wget -qO- https://raw.githubusercontent.com/haegelix/Simple_ROS_Configurator/main/install.sh)</code></pre>
+
 ## How to use the webinterface (click approach)
 not yet implemented
 
