@@ -19,6 +19,10 @@ build/: src/
 	@echo Start building...
 	@cd ./build/ && $(MAKE) build
 
+.PHONY: install
+install: build/
+	@cd ./build/ && $(MAKE) install
+
 # delete all files that were shipped within the package
 .PHONY: clean_install
 clean_install:
