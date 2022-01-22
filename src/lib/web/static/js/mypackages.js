@@ -1,5 +1,4 @@
 let socket = io("/package");
-let packages_filenames = []
 let packages = []
 const package_selection_invalid = document.getElementById("package_selection_invalid")
 const package_selection_dropdown = document.getElementById("package_selection")
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded",function (){
 
     socket.on('packages_list', function(message) {
         console.log(message.list)
-        packages_filenames = message.list
         request_packages_list_success(message.list)
     });
 
@@ -56,29 +54,22 @@ function request_package_list(){
     socket.emit('get_packages_list')
 }
 
-function request_all_packages(){
-    for(let filename of packages_filenames){
-        request_package(filename)
-    }
-}
-
 function request_package(filename){
     socket.emit('get_package', {filename: filename})
     console.log("requested " + filename)
 }
 
 function request_package_success(pkg_data) {
-    console.log("got package")
-    console.log(pkg_data)
     document.getElementById("pkg_name").innerText = pkg_data.package_name
     document.getElementById("pkg_description").innerText = pkg_data.package_info.description
     document.getElementById("pkg_version").innerText = pkg_data.package_info.version
     document.getElementById("pkg_license").innerText = pkg_data.package_info.license
     document.getElementById("pkg_maintainer").innerText = pkg_data.package_info.maintainer
     document.getElementById("pkg_maintainer_mail").innerText = pkg_data.package_info.maintainer_mail
-    document.getElementById("pkg_pubs").innerText = "" + pkg_data.pubs.length
-    document.getElementById("pkg_subs").innerText = "" + pkg_data.subs.length
 
-    //TODO load subs and pubs
-    package_to_network(pkg_data)
+    const pack = package_to_network(pkg_data)
+
+    document.getElementById("pkg_pubs").innerText = "" + pack.count_pubs()
+    document.getElementById("pkg_subs").innerText = "" + pack.count_subs()
+    document.getElementById("pkg_topics").innerText = "" + pack.count_topics()
 }
