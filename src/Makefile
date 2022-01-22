@@ -47,6 +47,7 @@ copy_static_files: checkroot
 	@echo Copying files...
 	@cp ./bin/srosc ${BIN_DIR}
 	@cp -r ./lib/* ${LIB_DIR}
+	@cp -r ./lib/.version ${LIB_DIR}
 	@cp -r ./etc/* ${CFG_DIR}
 	@echo Copying files... DONE
 
