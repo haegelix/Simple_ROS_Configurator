@@ -73,3 +73,8 @@ fieldset.tableform p p {
 }
 
 /* newpackage styles end */
+
+/* dialog styles */
+ dialog::backdrop {
+   background-color: #666666;
+ }
