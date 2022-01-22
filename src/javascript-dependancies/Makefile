@@ -27,8 +27,15 @@ socket.io.js socket.io.js.map:
 # install
 .PHONY: install
 install: build
-	# JavaScript
-	@cp *.js ${LIB_DIR}/web/static/js/
-	@cp *.js.map ${LIB_DIR}/web/static/js/
-	# CSS
-	@cp *.css ${LIB_DIR}/web/static/css/
+	@echo copy JavaScript files
+ifneq (,$(wildcard ./*.js))
+	@cp -v *.js ${LIB_DIR}/web/static/js/
+endif
+	@echo copy JavaScript map files
+ifneq (,$(wildcard ./*.js.map))
+	@cp -v *.js.map ${LIB_DIR}/web/static/js/
+endif
+	@echo copy CSS files
+ifneq (,$(wildcard ./*.css))
+	@cp -v *.css ${LIB_DIR}/web/static/css/
+endif
