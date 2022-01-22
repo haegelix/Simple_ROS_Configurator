@@ -16,6 +16,9 @@ echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 # make sure git is installed
 sudo apt install -y git
 
-# install srosc from package
-# TODO
+# install srosc (rolling dev)
+git clone https://github.com/haegelix/Simple_ROS_Configurator.git
+cd Simple_ROS_Configurator || exit
+make build
+sudo make install
 echo "now install the srosc package using 'sudo dpkg --install <name>.deb'"
