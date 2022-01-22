@@ -45,10 +45,10 @@ makedirs: checkroot
 .PHONY: copy_static_files
 copy_static_files: checkroot
 	@echo Copying files...
-	@cp ./bin/srosc ${BIN_DIR}
-	@cp -r ./lib/* ${LIB_DIR}
-	@cp -r ./lib/.version ${LIB_DIR}
-	@cp -r ./etc/* ${CFG_DIR}
+	@cp -v ./bin/srosc ${BIN_DIR}
+	@cp -rv ./lib/* ${LIB_DIR}
+	@cp -rv ./lib/.version ${LIB_DIR}
+	@cp -rv ./etc/* ${CFG_DIR}
 	@echo Copying files... DONE
 
 # install js dependancies
