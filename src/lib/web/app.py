@@ -110,6 +110,8 @@ def ui(target):
         pass
     elif target == "mypackages":
         pass
+    elif target == "info":
+        pass
     else:
         abort(404)
     return render_template('ui.html', component=target, uiargs=uiargs)

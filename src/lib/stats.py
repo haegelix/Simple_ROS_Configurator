@@ -13,7 +13,9 @@ TODO:
 
 
 def main(argv):
-    print(os.getcwd())
+    print("NOT YET IMPLEMENTED")
+    print("cwd:", os.getcwd())
+    exit(1)
 
 
 if __name__ == "__main__":

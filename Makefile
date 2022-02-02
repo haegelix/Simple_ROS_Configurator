@@ -3,6 +3,7 @@ export BIN_DIR=/usr/local/bin/
 export LIB_DIR=/usr/local/lib/srosc/
 export CFG_DIR=/etc/srosc/
 export LOG_DIR=/var/log/srosc/
+export VAR_DIR=/var/local/srosc/
 
 # used to pack a .deb-archive ready to get installed
 .PHONY: pack

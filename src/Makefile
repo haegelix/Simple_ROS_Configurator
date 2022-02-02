@@ -2,7 +2,6 @@
 PKG_NAME=srosc
 PKG_VERSION=0.2
 PKG_ARCH=arm64
-PKG_RELEASE=1
 PKG_LICENSE="To Be Decided"
 PKG_GROUP=srosc
 PKG_SOURCE=srosc
@@ -39,6 +38,7 @@ makedirs: checkroot
 	@[ -d $(LIB_DIR) ] || mkdir ${LIB_DIR}
 	@[ -d $(CFG_DIR) ] || mkdir ${CFG_DIR}
 	@[ -d $(LOG_DIR) ] || mkdir ${LOG_DIR}
+	@[ -d $(VAR_DIR) ] || mkdir ${VAR_DIR}
 	@echo Making dirs... DONE
 
 # copy all files to the correct directories
@@ -87,6 +87,16 @@ setpermissions: checkroot
 	@chmod -R 777 ${LOG_DIR}*
 	@echo Setting permissions... DONE
 
+.PHONY: create_workspaces
+create_workspaces:
+	@echo Creating SROSC-Workspace...
+	@[ -d $(VAR_DIR) ] || mkdir ${VAR_DIR}ws_srosc/
+	@cp
+	@echo Creating SROSC-Workspace... DONE!
+	@echo Creating ROS-Workspace...
+	@[ -d $(VAR_DIR) ] || mkdir ${VAR_DIR}ws_ros/
+	@echo Creating ROS-Workspace... DONE!
+
 # TODO create systemctl unit file
 # launch the whole install routine (mainly using other targets)
 .PHONY: install
@@ -97,7 +107,7 @@ install: checkroot makedirs copy_static_files install_js_dependancies createlogs
 .PHONY: pack
 pack:
 	checkinstall -y --pkgname=${PKG_NAME} --pkgversion=${PKG_VERSION} --pkgarch=${PKG_ARCH} \
-	--pkgrelease=${PKG_RELEASE} --pkglicense=${PKG_LICENSE} --pkggroup=${PKG_GROUP} --pkgsource=${PKG_SOURCE} \
+	--pkglicense=${PKG_LICENSE} --pkggroup=${PKG_GROUP} --pkgsource=${PKG_SOURCE} \
 	--pkgaltsource=${PKG_ALT_SOURCE} --pakdir=${PAKDIR} --maintainer=${MAINTAINER} --provides=${PROVIDES} \
 	--requires=${REQUIRES} --recommends=${RECOMMENDS} --suggests=${SUGGESTS} --conflicts=${CONFLICTS} \
 	--replaces=${REPLACES} --install=${INSTALL} ${MORE_FLAGS}

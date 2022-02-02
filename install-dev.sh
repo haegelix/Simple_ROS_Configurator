@@ -17,7 +17,7 @@ echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 sudo apt install -y git
 
 # install srosc prerequisites
-sudo apt install python3-pip
+sudo apt install -y python3-pip
 pip install flask flask-debugtoolbar flask-socketio
 
 

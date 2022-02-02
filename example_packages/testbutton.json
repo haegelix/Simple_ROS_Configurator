@@ -1,0 +1,30 @@
+{
+    "package_name": "name1",
+    "package_info": {
+        "version": "v1",
+        "description": "d1",
+        "maintainer_mail": "test@test.de",
+        "maintainer": "tobi",
+        "license": "l1",
+        "test_depends": [
+            "ament_copyright",
+            "ament_flake8",
+            "ament_pep257",
+            "python3-pytest"
+        ],
+        "exec_depends": [
+            "rclpy",
+            "std_msgs"
+        ]
+    },
+    "additional_imports": [],
+    "subs": [],
+    "pubs": [
+        {
+            "node_name": "noname",
+            "topic": "topic",
+            "type": "std_msgs.msg.String",
+            "src": "-button-"
+        }
+    ]
+}
