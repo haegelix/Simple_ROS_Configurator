@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 import os.path
 import re
-from pathlib import Path
-
 import setuptools
 import wget
 from os.path import join
+from pathlib import Path
 
+# load version string
 with open("ros2_ui/__init__.py", encoding="utf8") as f:
     version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
 
-with open("README.md", "r") as fh:
+# load description string
+with open("README.md", "r", encoding="utf8") as fh:
     long_description = fh.read()
 
+# javascript dependencies list
 js_deps: [(str, str, str)]
 js_deps = [("jQuery", "https://unpkg.com/jquery@3.6.0/dist/jquery.js", "jquery.js"),
            ("vis-network 1", "https://unpkg.com/vis-network@9.1.0/dist/vis-network.js", "vis-network.js"),
@@ -20,6 +22,7 @@ js_deps = [("jQuery", "https://unpkg.com/jquery@3.6.0/dist/jquery.js", "jquery.j
            ("socket.io 1", "https://unpkg.com/socket.io-client@4.4.1/dist/socket.io.js", "socket.io.js"),
            ("socket.io 2", "https://unpkg.com/socket.io-client@4.4.1/dist/socket.io.js.map", "socket.io.js.map")]
 
+# download dependencies
 for (title, url, filename) in js_deps:
     filepath = join('ros2_ui/web_ui/static/js-deps/', filename)
     if os.path.exists(filepath):
@@ -28,8 +31,10 @@ for (title, url, filename) in js_deps:
     print("Downloading:", title)
     wget.download(url, filepath)
 
-os.makedirs(os.path.join(Path.home(), ".ros2_ui", "projects"), exist_ok=True)
+# make directory for projects
+os.makedirs(join(Path.home(), ".ros2_ui", "projects"), exist_ok=True)
 
+# setup
 setuptools.setup(
     name="ros2_ui",
     version=version,

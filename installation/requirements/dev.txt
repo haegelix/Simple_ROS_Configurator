@@ -1,0 +1,2 @@
+# Installl these Python packages in order to develop ros2_ui
+# Please also install the ones in prod.txt.

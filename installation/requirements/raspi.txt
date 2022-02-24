@@ -1,2 +1,4 @@
+# Import these for using the GPIO-Ports of RasperryPi
+# Please also install the ones in prod.txt.
 gpiozero~=1.6.2
 RPi.GPIO~=0.7.1

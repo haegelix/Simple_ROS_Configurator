@@ -1,3 +1,8 @@
+# Import these for using the ros2_ui
+# you may also use the packages listed in
+#  * raspi.txt
+#  * dev.txt
+
 dataclass-dict-convert>=1.6.3
 Flask>=1.0.2
 Flask_SocketIO
