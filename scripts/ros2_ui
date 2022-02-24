@@ -2,6 +2,10 @@ import ros2_ui.web_ui.app
 
 
 def main():
+    """
+    Starts up the web GUI by running the main function in ros2_ui.web_ui.app.
+    :return:
+    """
     ros2_ui.web_ui.app.main()
 
 

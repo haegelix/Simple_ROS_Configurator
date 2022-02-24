@@ -1,3 +1,6 @@
+"""
+This file is currently not included in installation due to refactoring the CLI.
+"""
 from ros2_ui.use_cases.Project import *
 from ros2_ui.interfaces.ProjectStorage import ProjectStorage
 
