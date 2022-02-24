@@ -1,2 +1,2 @@
-v = "rolling_dev"
+__version__ = "rolling_dev"
 source_link = "https://github.com/haegelix/ros2_ui"
