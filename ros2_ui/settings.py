@@ -8,6 +8,7 @@ class __Settings:
     version = __version__
     src_link = source_link
     log_path = path.join(Path.home(), ".ros2_ui", "LOG.log")
+    projects_path = path.join(Path.home(), ".ros2_ui", "projects")
 
 
 settings = __Settings()

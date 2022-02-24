@@ -4,6 +4,7 @@ from os import path
 import os
 
 from ros2_ui.domains.Project import Project
+from ros2_ui.settings import settings
 
 
 # WARNING: Package name "TestPackage" does not follow the naming conventions. It should start with a lower case
@@ -11,7 +12,7 @@ from ros2_ui.domains.Project import Project
 
 class ProjectStorage:
     def __init__(self):
-        self.projects_path = path.join(Path.home(), ".ros2_ui", "projects")
+        self.projects_path = settings.projects_path
 
     def list(self) -> [str]:
         l = os.listdir(self.projects_path)
