@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import os.path
 import re
+from pathlib import Path
+
 import setuptools
 import wget
 from os.path import join
@@ -26,6 +28,7 @@ for (title, url, filename) in js_deps:
     print("Downloading:", title)
     wget.download(url, filepath)
 
+os.makedirs(os.path.join(Path.home(), ".ros2_ui", "projects"))
 
 setuptools.setup(
     name="ros2_ui",
