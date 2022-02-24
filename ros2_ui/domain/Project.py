@@ -9,7 +9,7 @@ from ros2_ui.domain.Node import Publisher, Subscriber
 @dataclasses.dataclass
 class ProjectInfo:
     """
-    Holds metadata about a project.
+    Stores a project's metadata.
     """
     package_name: str  # Name of the package
     version: str  # Version of the package
@@ -22,6 +22,9 @@ class ProjectInfo:
 @dataclass_dict_convert
 @dataclasses.dataclass
 class ProjectDependencies:
+    """
+    Stores a project's dependencies.
+    """
     test_depends: List[str]  # Dependencies to be used in testing of the package
     exec_depends: List[str]  # Dependencies to be used in execution of the package
 
@@ -29,7 +32,10 @@ class ProjectDependencies:
 @dataclass_dict_convert
 @dataclasses.dataclass
 class Project:
-    project_info: ProjectInfo
-    project_dependencies: ProjectDependencies
-    pubs: List[Publisher]
-    subs: List[Subscriber]
+    """
+    Stores a project.
+    """
+    project_info: ProjectInfo  # Metaddata
+    project_dependencies: ProjectDependencies  # Dependencies
+    pubs: List[Publisher]  # List of Publishers
+    subs: List[Subscriber]  # List of Subscribers
