@@ -1,4 +1,4 @@
-from ros2_ui.domain.Node import Node, Publisher, Subscriber
+from ros2_ui.domains.Node import Node, Publisher, Subscriber
 
 
 class ROS2_Node:

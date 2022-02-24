@@ -1,6 +1,6 @@
 import shutil
 
-from ros2_ui.domain.Project import Project
+from ros2_ui.domains.Project import Project
 from ros2_ui.interfaces.cli_helper import runcommand
 from ros2_ui.interfaces.Log import logging
 

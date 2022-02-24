@@ -1,5 +1,5 @@
-from ros2_ui.domain.Node import Node
-from ros2_ui.domain.Project import Project
+from ros2_ui.domains.Node import Node
+from ros2_ui.domains.Project import Project
 
 
 class LaunchfileNode:

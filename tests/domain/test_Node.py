@@ -1,5 +1,5 @@
 import unittest
-from ros2_ui.domain.Node import Publisher, Subscriber
+from ros2_ui.domains.Node import Publisher, Subscriber
 
 
 class TestCaseNode(unittest.TestCase):

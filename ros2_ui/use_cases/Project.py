@@ -5,7 +5,7 @@ from ros2_ui.interfaces.ros_interface_classes.entrypoint import EntryPoint
 from ros2_ui.interfaces.ros_interface_classes.launchfile_node import LaunchfileNode
 from ros2_ui.interfaces.template_files import copy_edit_template_file, register_entry_point, register_launch_file, \
     write_launch_file
-from ros2_ui.domain.Project import Project
+from ros2_ui.domains.Project import Project
 import ros2_ui.interfaces.ros2_cli as ros2_cli
 from ros2_ui.interfaces.Log import logging, add_logger, del_logger
 

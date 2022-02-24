@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from ros2_ui.domain.Project import ProjectInfo, ProjectDependencies, Project
+from ros2_ui.domains.Project import ProjectInfo, ProjectDependencies, Project
 
 
 class TestCaseProject(unittest.TestCase):

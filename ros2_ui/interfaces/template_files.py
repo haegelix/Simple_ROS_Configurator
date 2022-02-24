@@ -1,8 +1,8 @@
 import ros2_ui.template_files
 from os import path
 
-from ros2_ui.domain.Project import Project
-from ros2_ui.domain.Node import Node, Publisher, Subscriber
+from ros2_ui.domains.Project import Project
+from ros2_ui.domains.Node import Node, Publisher, Subscriber
 from ros2_ui.interfaces.ros2_cli import get_package_py_dir, get_package_root_dir
 from ros2_ui.interfaces.ros_interface_classes.launchfile_node import LaunchfileNode
 from ros2_ui.interfaces.ros_interface_classes.ros_node import ROS2_Publisher, ROS2_Subscriber

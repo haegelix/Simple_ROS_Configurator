@@ -17,7 +17,7 @@ from rclpy.node import Node
 # custom ros2_ui modules
 from ros2_ui.interfaces.Log import add_logger, del_logger, get_queue_logger
 from ros2_ui.settings import settings
-from ros2_ui.domain.Project import Project
+from ros2_ui.domains.Project import Project
 from ros2_ui.use_cases import Project as ProjectUseCases
 from ros2_ui.interfaces import ProjectStorage
 from ros2_ui.web_ui.web_interfaces import SocketIOHandler

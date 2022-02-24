@@ -2,7 +2,7 @@ import dataclasses
 from dataclass_dict_convert import dataclass_dict_convert
 from typing import List
 
-from ros2_ui.domain.Node import Publisher, Subscriber
+from ros2_ui.domains.Node import Publisher, Subscriber
 
 
 @dataclass_dict_convert

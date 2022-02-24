@@ -3,7 +3,7 @@ from pathlib import Path
 from os import path
 import os
 
-from ros2_ui.domain.Project import Project
+from ros2_ui.domains.Project import Project
 
 
 # WARNING: Package name "TestPackage" does not follow the naming conventions. It should start with a lower case
