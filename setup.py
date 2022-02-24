@@ -53,6 +53,7 @@ setuptools.setup(
                               'web_ui/static/img/*', 'web_ui/static/js/*', 'web_ui/static/js-deps/*']},
     include_package_data=False,
     install_requires=[
-        'Flask>=1.1.2'
+        'Flask>=1.1.2',
+        'dataclass-dict-convert>=1.6.3'
     ]
 )
