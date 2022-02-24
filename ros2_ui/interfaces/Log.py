@@ -39,20 +39,7 @@ def setup_logging(filename: str):
     logg.addLevelName(logg.CRITICAL, 'CRIT')
 
 
-def add_logger(q: SimpleQueue):
-    root_logger = logg.getLogger()
-    log_fmt_stdout = logg.Formatter('%(asctime)s %(levelname)s - %(message)s', '%H:%M:%S')
-    queue_handler = QueueHandler(q)
-    queue_handler.setFormatter(log_fmt_stdout)
-    root_logger.addHandler(queue_handler)
-    return queue_handler
-
-
-def del_logger(handler: handlers):
-    root_logger = logg.getLogger()
-    root_logger.removeHandler(handler)
-
-
+# to be run on import
 logging = LogAdapter(logg.getLogger(), None)
 setup_logging(settings.log_path)
 

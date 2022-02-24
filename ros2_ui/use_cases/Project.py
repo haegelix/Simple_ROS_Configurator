@@ -7,7 +7,7 @@ from ros2_ui.interfaces.template_files import copy_edit_template_file, register_
     write_launch_file
 from ros2_ui.domains.Project import Project
 import ros2_ui.interfaces.ros2_cli as ros2_cli
-from ros2_ui.interfaces.Log import logging, add_logger, del_logger
+from ros2_ui.interfaces.Log import logging
 
 
 def project_load_all_use_case(project_storage: ProjectStorage) -> [Project]:
