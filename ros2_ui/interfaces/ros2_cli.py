@@ -13,6 +13,12 @@ ros2_ws_src_path = path.join(ros2_ws_path, "src")
 
 
 def _exec_depends_str(exec_depends: [str]) -> str:
+    """
+    Assemble the exec_depends string. (space-seperated list)
+
+    :param exec_depends: Array in.
+    :return: String out.
+    """
     s = ""
     for x in exec_depends:
         s += x
@@ -24,6 +30,10 @@ def _exec_depends_str(exec_depends: [str]) -> str:
 def create_package(project: Project, logger=logging) -> None:
     """
     Creates a new package by using the ros2 executables
+
+    :param project: Project to be packed.
+    :param logger: Logger to be used.
+    :return: Nothing.
     """
     pkg_path = path.join(ros2_ws_src_path, project.project_info.package_name)
     if path.exists(pkg_path):
@@ -43,10 +53,20 @@ def create_package(project: Project, logger=logging) -> None:
 
 
 def workspace_exists() -> bool:
+    """
+    Find out if ROS2-workspace dir does exist or not.
+
+    :return: True if ROS2-workspace already exists.
+    """
     return path.exists(ros2_ws_path)
 
 
 def create_workspace():
+    """
+    Create an empty new ROS2-workspace inside ros2_ui-workspace.
+
+    :return: Nothing.
+    """
     os.makedirs(path.join(ros2_ws_path, "src"))
     cwd = os.getcwd()
     os.chdir(ros2_ws_path)
@@ -57,6 +77,7 @@ def create_workspace():
 def resolve_dep(project: Project):
     """
     Build all dependencies and all packages.
+
     :return: Nothing
     """
     cwd = os.getcwd()
