@@ -1,7 +1,6 @@
-dataclass-dict-convert==1.6.3
+dataclass-dict-convert>=1.6.3
 Flask>=1.0.2
 Flask_SocketIO
-flask_debugtoolbar
 python-engineio
 python-socketio
 wget~=3.2
