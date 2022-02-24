@@ -1,3 +1,6 @@
+"""
+Holds methods to build and write python-code from template-files.
+"""
 import ros2_ui.template_files
 from os import path
 
@@ -14,8 +17,11 @@ template_dir = path.dirname(ros2_ui.template_files.__file__)
 
 
 class repl:
-    old: str
-    new: str
+    """
+    Stores a replacement.
+    """
+    old: str  # old value
+    new: str  # new value
 
     def __init__(self, old: str, new: str):
         self.old = old
@@ -23,6 +29,11 @@ class repl:
 
 
 def replace_std():
+    """
+    Assembles the standard replacements.
+
+    :return: Array of replacements.
+    """
     return [
         repl("!VERSION!", settings.version),
         repl("!SRC_LINK!", settings.src_link)
@@ -30,6 +41,15 @@ def replace_std():
 
 
 def modify_and_write_python_file_from_string(project: Project, py_code: str, dest_name: str, replacements: [repl]):
+    """
+    Takes a string of python code, modifies it according to given replacements and writes it to the package dir.
+
+    :param project: Project the file belongs to.
+    :param py_code: Python code as string.
+    :param dest_name: Destination filename.
+    :param replacements: Replacements to be done.
+    :return:
+    """
     # insert code-snippet
     for r in replacements:
         py_code = py_code.replace(r.old, r.new)
@@ -42,6 +62,15 @@ def modify_and_write_python_file_from_string(project: Project, py_code: str, des
 
 
 def modify_and_copy_python_file(project: Project, templ_name: str, dest_name: str, replacements: [repl]):
+    """
+    Takes a template python file, modifies it according to given replacements and writes it to the package dir.
+
+    :param project: Project the file belongs to.
+    :param templ_name: Python code filename.
+    :param dest_name: Destination filename.
+    :param replacements: Replacements to be done.
+    :return:
+    """
     # read template file
     in_file = open(path.join(template_dir, templ_name), "r")
     py_code = in_file.read()
@@ -59,6 +88,14 @@ def modify_and_copy_python_file(project: Project, templ_name: str, dest_name: st
 
 
 def copy_edit_template_file(node: Node, project: Project) -> {(None, None), (EntryPoint, LaunchfileNode)}:
+    """
+    Create package files for a given node.
+
+    :param node: Node in question.
+    :param project: Project the node is based in.
+    :return: EntryPoint and LaunchfileNode for the new node.
+    """
+
     replace = replace_std()
     # handle publisher nodes
     if isinstance(node, Publisher):
@@ -108,6 +145,13 @@ def copy_edit_template_file(node: Node, project: Project) -> {(None, None), (Ent
 
 
 def write_launch_file(project: Project, launch_nodes: [LaunchfileNode]):
+    """
+    Write the launch file.
+    :param project:
+    :param launch_nodes:
+    :return:
+    """
+
     replacements = replace_std()
 
     launch_nodes_str = ""
@@ -117,11 +161,19 @@ def write_launch_file(project: Project, launch_nodes: [LaunchfileNode]):
         launch_nodes_str += ln.to_python() + "\n"
 
     replacements.append(repl("# !INSERT_LAUNCHFILE_NODES_HERE", launch_nodes_str))
-    filename = path.join("..", "launch", project.project_info.package_name + ".launch")
+    filename = path.join("..", "launch", project.project_info.package_name + ".launch")  # todo move to ros interface
     modify_and_copy_python_file(project, "launch.py", filename, replacements)
 
 
 def register_entry_point(project: Project, e: EntryPoint):
+    """
+    Registers an EntryPoint.
+
+    :param project: Project the EntryPoint belongs to.
+    :param e: EntryPoint in question.
+    :return: Nothing.
+    """
+
     if e is None:
         return
 
@@ -143,6 +195,12 @@ def register_entry_point(project: Project, e: EntryPoint):
 
 
 def register_launch_file(project: Project):
+    """
+    Register launch file.
+
+    :param project: Project in question.
+    :return: Nothing.
+    """
     logging.info("registering launch file")
 
     setup_py_path = path.join(get_package_root_dir(project), "setup.py")
