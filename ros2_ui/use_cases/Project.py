@@ -1,5 +1,3 @@
-from queue import SimpleQueue
-
 from ros2_ui.interfaces.ProjectStorage import ProjectStorage
 from ros2_ui.interfaces.ros_interface_classes.entrypoint import EntryPoint
 from ros2_ui.interfaces.ros_interface_classes.launchfile_node import LaunchfileNode
@@ -8,10 +6,6 @@ from ros2_ui.interfaces.template_files import copy_edit_template_file, register_
 from ros2_ui.domains.Project import Project
 import ros2_ui.interfaces.ros2_cli as ros2_cli
 from ros2_ui.interfaces.Log import logging
-
-
-def project_load_all_use_case(project_storage: ProjectStorage) -> [Project]:
-    return project_storage.load_all()
 
 
 def project_get_list_use_case(project_storage: ProjectStorage) -> [Project]:
