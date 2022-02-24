@@ -3,13 +3,13 @@ import shutil
 from ros2_ui.domains.Project import Project
 from ros2_ui.interfaces.cli_helper import runcommand
 from ros2_ui.interfaces.Log import logging
+from ros2_ui.settings import settings
 
 import os
-from pathlib import Path
 from os import path
 
-ros2_ws_path = path.join(Path.home(), ".ros2_ui", "ros2_ws")
-ros2_ws_src_path = path.join(ros2_ws_path, "src")
+ros2_ws_path = settings.ros2_ws_path
+ros2_ws_src_path = settings.ros2_ws_src_path
 
 
 def _exec_depends_str(exec_depends: [str]) -> str:
