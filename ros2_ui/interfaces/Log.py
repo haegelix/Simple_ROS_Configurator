@@ -7,6 +7,9 @@ from ros2_ui.settings import settings
 
 
 class LogAdapter(logg.LoggerAdapter):
+    """
+    LogAdapter handles log messages to be able to alter them before they are being presented.
+    """
     def process(self, msg, kwargs):
         ms = str(msg)
         ms = ms.replace("\n", "\n|    ")
@@ -14,6 +17,11 @@ class LogAdapter(logg.LoggerAdapter):
 
 
 def setup_logging(filename: str):
+    """
+    Set up logging.
+    :param filename: Filename of the file the log should be flowing towards.
+    :return:
+    """
     # set loglevel
     root_logger = logg.getLogger()
     root_logger.setLevel(logg.DEBUG)
@@ -45,16 +53,20 @@ setup_logging(settings.log_path)
 
 
 def get_queue_logger(q: SimpleQueue, logger_name="") -> logg.Logger:
+    """
+    Build a new queue-logger. You can logg to it like to a standard logger.
+    :param q: Queue to be used for logging.
+    :param logger_name: Name for the new logger.
+    :return: A fresh logger.
+    """
     # get new logger
     logger = logg.getLogger(logger_name)
 
     # set format
     log_fmt_stdout = logg.Formatter('%(asctime)s %(levelname)s - %(message)s', '%H:%M:%S')
 
-    # create Queue handler
+    # create Queue handler & return
     queue_handler = QueueHandler(q)
     queue_handler.setFormatter(log_fmt_stdout)
     logger.addHandler(queue_handler)
-
-    # return
     return logger
