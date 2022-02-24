@@ -21,6 +21,7 @@ class ProjectStorage:
     def list(self) -> [str]:
         """
         Get list of all projects stored on disk.
+
         :return: List of filenames.
         """
         dir_contents = os.listdir(self.projects_path)
@@ -29,6 +30,7 @@ class ProjectStorage:
     def load_one(self, filename: str) -> Project:
         """
         Loads a project from disk.
+
         :param filename: Filename of the project.
         :return: The project.
         """
@@ -39,6 +41,7 @@ class ProjectStorage:
     def save(self, project: Project):
         """
         Save a project to disk.
+
         :param project: Project to be saved.
         :return: Nothing.
         """

@@ -53,6 +53,14 @@ def runcommand(command: str, shortname: str, logger=logging):
 
 
 def log_while_running(stream, stream_name: str, logger=logging):
+    """
+    Log everything coming in via a specific stream to a logger of choice.
+
+    :param stream: Stream in question.
+    :param stream_name: Name of the stream.
+    :param logger: Logger to be used.
+    :return: Nothing.
+    """
     for line in iter(stream.readline, b''):
         logger.info('{0}: {1}'.format(stream_name, line.decode('utf-8')))
 

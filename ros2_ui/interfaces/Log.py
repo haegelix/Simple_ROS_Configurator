@@ -11,6 +11,13 @@ class LogAdapter(logg.LoggerAdapter):
     LogAdapter handles log messages to be able to alter them before they are being presented.
     """
     def process(self, msg, kwargs):
+        """
+        Alter messages adding indents.
+
+        :param msg: Message to be processed.
+        :param kwargs: More parameters.
+        :return: Altered messages and kwargs.
+        """
         ms = str(msg)
         ms = ms.replace("\n", "\n|    ")
         return ms, kwargs
@@ -19,6 +26,7 @@ class LogAdapter(logg.LoggerAdapter):
 def setup_logging(filename: str):
     """
     Set up logging.
+
     :param filename: Filename of the file the log should be flowing towards.
     :return:
     """
@@ -55,6 +63,7 @@ setup_logging(settings.log_path)
 def get_queue_logger(q: SimpleQueue, logger_name="") -> logg.Logger:
     """
     Build a new queue-logger. You can logg to it like to a standard logger.
+
     :param q: Queue to be used for logging.
     :param logger_name: Name for the new logger.
     :return: A fresh logger.
