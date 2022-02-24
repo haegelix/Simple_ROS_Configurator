@@ -28,7 +28,7 @@ for (title, url, filename) in js_deps:
     print("Downloading:", title)
     wget.download(url, filepath)
 
-os.makedirs(os.path.join(Path.home(), ".ros2_ui", "projects"))
+os.makedirs(os.path.join(Path.home(), ".ros2_ui", "projects"), exist_ok=True)
 
 setuptools.setup(
     name="ros2_ui",
