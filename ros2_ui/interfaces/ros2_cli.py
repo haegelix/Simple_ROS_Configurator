@@ -88,6 +88,12 @@ def resolve_dep(project: Project):
 
 
 def build_package(project: Project):
+    """
+    Build a package.
+
+    :param project: Project the package in question belongs to.
+    :return: Nothing.
+    """
     cwd = os.getcwd()
     os.chdir(ros2_ws_path)
     command = "colcon build --packages-select " + project.project_info.package_name
@@ -96,8 +102,20 @@ def build_package(project: Project):
 
 
 def get_package_py_dir(project: Project):
+    """
+    Get the source-code dir of the package corresponding to a project.
+
+    :param project: Project the package in question belongs to.
+    :return: Path.
+    """
     return path.join(get_package_root_dir(project), project.project_info.package_name)
 
 
 def get_package_root_dir(project: Project):
+    """
+    Get the root dir of the package corresponding to a project.
+
+    :param project: Project the package in question belongs to.
+    :return: Path.
+    """
     return path.join(ros2_ws_src_path, project.project_info.package_name)
