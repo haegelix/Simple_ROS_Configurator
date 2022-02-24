@@ -14,15 +14,13 @@ sudo apt install -y ros-foxy-ros-base
 echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
 # install colcon
-sudo apt install python3-colcon-common-extensions
-sudo apt install python3-rosdep2
-
+sudo apt install python3-colcon-common-extensions python3-rosdep2
 sudo apt install python-is-python3
 
 # make sure git is installed
 sudo apt install -y git
 
-# install srosc prerequisites
+# install ros2_ui prerequisites
 sudo apt install -y python3-pip
 pip install flask flask-debugtoolbar flask-socketio simple-websocket
 
@@ -30,17 +28,12 @@ pip install flask flask-debugtoolbar flask-socketio simple-websocket
 sudo apt-get install python-rpi.gpio python3-rpi.gpio
 sudo apt install python3-gpiozero
 
-
-# TODO see below
-# sudo nano /etc/profile
-# . /opt/ros/foxy/setup.sh
-
-
 # install srosc (rolling dev)
-git clone https://github.com/haegelix/Simple_ROS_Configurator.git
-cd Simple_ROS_Configurator || exit
-make build
-sudo make install
+git clone https://github.com/haegelix/ros2_ui.git
+cd ros2_ui || exit
+echo install it now please
+#make build
+#sudo make install
 # done
 
 
