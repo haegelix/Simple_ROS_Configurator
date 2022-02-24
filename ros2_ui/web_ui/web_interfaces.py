@@ -1,9 +1,9 @@
-import logging as logg
+import logging
 
 from flask_socketio import SocketIO
 
 
-class SocketIOHandler(logg.Handler):
+class SocketIOHandler(logging.Handler):
     """A logging handler that emits records with SocketIO."""
 
     def __init__(self, socket: SocketIO, room: str, topic=str):
