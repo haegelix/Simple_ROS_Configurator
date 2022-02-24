@@ -24,6 +24,11 @@ class ProjectStorage:
         return [Project.from_dict(i) for i in project_files]
 
     def load_one(self, filename: str) -> Project:
+        """
+        Loads a project from disk.
+        :param filename: Filename of the project.
+        :return: The project
+        """
         projectfile_path = path.join(self.projects_path, filename)
         project_file = json.load(open(projectfile_path))
         return Project.from_dict(project_file)
