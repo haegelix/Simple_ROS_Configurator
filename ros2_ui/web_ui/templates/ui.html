@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ros2_ui - {{ component }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <link rel="icon" href="/static/img/favicon.png">
+    <!-- JS-dependencies being installed on install -->
+    <script src="/static/js-deps/jquery.js"></script>
+    <!-- JS-files being shipped with ros2_ui -->
+    <script src="/static/js/helpers.js"></script>
+    <script src="/static/js/ros2_ui_classes.js"></script>
+    <script src="/static/js/jquery_fills.js"></script>
+</head>
+<body>
+{% include 'navbar.html' %}
+{% include 'ui_'+component+'.html' %}
+</body>
+</html>

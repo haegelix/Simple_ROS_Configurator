@@ -1,0 +1,12 @@
+<dialog id="launch_dialog" style="width: 75%; text-align: left">
+    <input type="button" value="Close" onclick="dialog_launch.close()" style="float: right">
+    <h2>Launch Project</h2>
+    <code id="launch_log">
+        launch-request sent...<br>
+        waiting...<br>
+    </code>
+</dialog>
+
+<button onclick="dialog_launch.open()">Launch it!</button>
+
+<script src="/static/js/dialog_launch.js"></script>

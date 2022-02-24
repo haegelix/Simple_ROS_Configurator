@@ -1,0 +1,135 @@
+<div style="float: right; margin-top: 5px">
+    <label for="package_selection">Open saved project&nbsp;</label>
+    <select id="package_selection" oninput="select_package(package_selection_dropdown.val())">
+        <option value="invalid" id="package_selection_invalid">Choose project!</option>
+    </select>
+    &nbsp;or&nbsp;
+    {% include 'dialog_new_project.html' %}
+</div>
+
+<h3>Project: <span id="pkg_name">not loaded</span></h3>
+
+<table border="0" width="100%">
+    <colgroup>
+        <col width="50%">
+        <col width="50%">
+    </colgroup>
+    <tr style="height: 500px; max-height: 500px">
+        <td colspan="2">
+            <div id="mynetwork" style="height: 500px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="display: none">
+            <label for="input_output">
+                As code:
+            </label>
+            <textarea id="input_output" style="height: 500px; width: 100%; max-height: 500px; resize: none"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button onclick="save_package()">Save project!</button>
+            <button onclick="buildProject()">Build it!</button>
+            {% include 'dialog_launch.html' %}
+        </td>
+        <td style="text-align: right">
+            {% include 'dialog_edit_node.html' %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <fieldset>
+                <legend>Project details</legend>
+                <table>
+                    <tr>
+                        <th>
+                            <label for="pkg_description">Description</label>
+                        </th>
+                        <td>
+                            <textarea class="pkg_data" id="pkg_description">not loaded</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="pkg_version">Version</label>
+                        </th>
+                        <td>
+                            <input class="pkg_data" type="text" id="pkg_version" value="not loaded"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="pkg_license">License</label>
+                        </th>
+                        <td>
+                            <input class="pkg_data" type="text" id="pkg_license" value="not loaded"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="pkg_maintainer">Maintainer</label>
+                        </th>
+                        <td>
+                            <input class="pkg_data" type="text" id="pkg_maintainer" value="not loaded"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="pkg_maintainer_mail">Em@il</label>
+                        </th>
+                        <td>
+                            <input class="pkg_data" type="email" id="pkg_maintainer_mail" value="not loaded"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Content
+                        </th>
+                        <td>
+                            <span id="pkg_pubs">?</span> Publishers
+                            <br>
+                            <span id="pkg_subs">?</span> Subscribers
+                            <br>
+                            <span id="pkg_topics">?</span> Topics
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </td>
+        <td style="align-content: start;">
+            <fieldset style="position: relative; top: 0;">
+                <legend>How to edit a project</legend>
+                <ul>
+                    <li>
+                        <b>To add a node:</b> click on "Create Node"
+                    </li>
+                    <li>
+                        <b>To delete a node:</b> double-click it
+                    </li>
+                    <li>
+                        <b>To edit a node:</b> select, then right-click it
+                    </li>
+                </ul>
+            </fieldset>
+        </td>
+    </tr>
+</table>
+
+<dialog id="build_dialog" class="log" style="width: 75%">
+    <h2>Build-Log</h2>
+    <div class="log">
+        <code id="build_dialog_log">
+
+        </code>
+    </div>
+    <br>
+    <button onclick="close_build_dialog()">Close!</button>
+</dialog>
+
+<script src="/static/js-deps/socket.io.js"></script>
+<script src="/static/js-deps/vis-network.js"></script>
+<script src="/static/js/vis-network_helpers.js"></script>
+<script src="/static/js/ui_projects.js"></script>
+
+

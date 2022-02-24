@@ -1,3 +1,9 @@
-.idea/*
-*.deb
-build/
+# ignore IDE specific files
+.idea
+
+# ignore temporary test files
+tmp/
+
+# ignore js dependencies (will be downloaded on install)
+ros2_ui/web_ui/static/js-deps/
+!ros2_ui/web_ui/static/js-deps/.gitkeep

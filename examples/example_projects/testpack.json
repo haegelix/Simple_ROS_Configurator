@@ -1,0 +1,22 @@
+{
+  "project_info": {
+    "package_name": "Test Package",
+    "version": "1.2.3",
+    "description": "Description of the package 'Test Package'",
+    "maintainer_mail": "mail@example.com",
+    "maintainer": "Maint Ainer",
+    "license": "My License"
+  },
+  "project_dependencies": {
+    "test_depends": [
+      "test_dep_1",
+      "test_dep_2"
+    ],
+    "exec_depends": [
+      "exec_dep_1",
+      "exec_dep_2"
+    ]
+  },
+  "pubs": [],
+  "subs": []
+}

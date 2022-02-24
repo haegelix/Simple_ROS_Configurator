@@ -1,0 +1,14 @@
+import ros2_ui.web_ui.app
+
+
+def main():
+    ros2_ui.web_ui.app.main()
+
+
+if __name__ == "__main__":
+    try:
+        # ros2_ui.startup.main(sys.argv[1:])
+        main()
+    except KeyboardInterrupt:
+        exit("\n\nKilled via KeyboardInterrupt (Ctrl+C). ByeBye!")
+    print("Thanks for using. ByeBye!")

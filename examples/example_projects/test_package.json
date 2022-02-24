@@ -1,0 +1,52 @@
+{
+  "project_info": {
+    "package_name": "test_package",
+    "version": "1.2.3",
+    "description": "Door bell",
+    "maintainer_mail": "mail@example.com",
+    "maintainer": "Maint Ainer",
+    "license": "My License"
+  },
+  "project_dependencies": {
+    "test_depends": [
+      "ament_copyright",
+      "ament_flake8",
+      "ament_pep257",
+      "python3-pytest"
+    ],
+    "exec_depends": [
+      "rclpy",
+      "std_msgs"
+    ]
+  },
+  "pubs": [
+    {
+      "node_name": "pushbutton_outside",
+      "topic": "bell",
+      "msg_type": "std_msgs.msg.String",
+      "uses_stdout": false,
+      "needs_tty": false,
+      "src": "-button-"
+    }
+  ],
+  "subs": [
+    {
+      "node_name": "light",
+      "topic": "bell",
+      "msg_type": "std_msgs.msg.String",
+      "uses_stdout": false,
+      "needs_tty": false,
+      "callback": "-led-",
+      "user_code": "# this code will only be used if you specify -user-supplied- as callback (see above)\n\ndef init():\n    pass\n\n# this example will just print the data to stdout\ndef callback(value):\n    print(value.data)\n"
+    },
+    {
+      "node_name": "door",
+      "topic": "bell",
+      "msg_type": "std_msgs.msg.String",
+      "uses_stdout": true,
+      "needs_tty": true,
+      "callback": "-user-supplied-",
+      "user_code": "import sys\nimport threading\nimport random\nimport time\nfrom std_msgs.msg import String\n\ndoor_closed = \"\"\"\n _______________\n|  ___________  |\n| |   _ _ _   | |\n| |  |     |  | |\n| |  |     |  | |\n| |  |_ _ _|  | |\n| |           | |\n| |        () | |\n| |        || | |\n| |        () | |\n| |           | |\n| |           | |\n| |           | |\n|_|___________|_|\n\"\"\"\n\ndoor_open = \"\"\"\n _______________\n|  ___________  |\n| |  ,' | |   | |\n| | |   | |   | |\n| | |   | |   | |\n| | |  ,' |   | |\n| | |,' o |   | |\n| |     H |   | |\n| |     o |   | |\n| |       |   | |\n| |       |   | |\n| |      ,'   | |\n| |   ,'      | |\n|_|,'_________|_|\n\"\"\"\n\ndoor_ring = \"\"\"\n                 /~~~~~~~~~\\\\\n                < RING RING >\n                 \\\\~~~~~~~~~/\n \n _______________\n|  ___________  |\n| |   _ _ _   | |\n| |  |     |  | |\n| |  |     |  | |\n| |  |_ _ _|  | |\n| |           | |\n| |        () | |\n| |        || | |\n| |        () | |\n| |           | |\n| |           | |\n| |           | |\n|_|___________|_|\n\"\"\"\n\n\ndef door_print(door: str):\n    print(\"\\n\"*50)\n    print(door)\n\n\ndef init():\n    door_print(door_closed)\n\n\nt_open: threading.Thread\n\n\ndef callback(out: String):\n    global t_open\n\n    # if thread already ran, or is currently running: join it\n    try:\n        if t_open and t_open.is_alive():\n            t_open.join()\n    except NameError:\n        pass\n\n    # assemble new thread and run it\n    t_open = threading.Thread(target=go_open_the_door, args=())\n    if out.data == \"yes\":\n        t_open.start()\n\n\ndef go_open_the_door():\n    # get random time-to-open\n    sleep_time = random.randint(9, 15)\n\n    # show ringing door\n    door_print(door_ring)\n    time.sleep(1)\n    door_print(door_closed)\n    time.sleep(1)\n    door_print(door_ring)\n    time.sleep(1)\n\n    # show closed door (waiting for opening)\n    door_print(door_closed)\n    for i in range(sleep_time):\n        time.sleep(1)\n        print(\".\", end=\"\")\n        sys.stdout.flush()\n\n    # show open door\n    door_print(door_open)\n    time.sleep(3)\n\n    # show closed-again door\n    door_print(door_closed)\n\n\nif __name__ == '__main__':\n    init()\n    s = String()\n    s.data = \"yes\"\n    callback(s)\n"
+    }
+  ]
+}

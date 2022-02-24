@@ -1,0 +1,24 @@
+{
+  "project_info": {
+    "package_name": "",
+    "version": "",
+    "description": "",
+    "maintainer_mail": "",
+    "maintainer": "",
+    "license": ""
+  },
+  "project_dependencies": {
+    "test_depends": [
+      "ament_copyright",
+      "ament_flake8",
+      "ament_pep257",
+      "python3-pytest"
+    ],
+    "exec_depends": [
+      "rclpy",
+      "std_msgs"
+    ]
+  },
+  "pubs": [],
+  "subs": []
+}

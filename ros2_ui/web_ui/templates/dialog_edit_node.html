@@ -1,0 +1,194 @@
+<dialog id="new_node_dialog" style="max-width: 75%; text-align: left">
+    <input type="button" value="Close" onclick="close_new_node_dialog()" style="float: right">
+    <h2>Create / Edit node</h2>
+    <p class="validateTips">All form fields are required.</p>
+    <label for="new_node_type">Type of node: </label>
+    <select id="new_node_type">
+        <option value="pub">Publisher</option>
+        <option value="sub">Subscriber</option>
+    </select>
+    <br><br>
+    <form id="new_node_form">
+        <fieldset>
+            <div id="new_node_validation_errors" style="color: red">
+                <ul id="new_node_validation_errors_list">
+
+                </ul>
+            </div>
+            <table style="width: 100%" id="new_node_pub">
+                <tr>
+                    <th>
+                        <label for="pub_node_name">node_name</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_node_name" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_topic">topic</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pub_topic" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+
+                        <label for="pub_msg_type">msg_type</label>
+                    </th>
+                    <td>
+                        <select id="pub_msg_type">
+                            <option value="invalid">Choose msg-type!</option>
+                            <option value="std_msgs.msg.Bool">bool</option>
+                            <option value="std_msgs.msg.Byte">byte</option>
+                            <option value="std_msgs.msg.Char">char</option>
+                            <option value="std_msgs.msg.Empty">empty</option>
+                            <option value="std_msgs.msg.Float64">float</option>
+                            <option value="std_msgs.msg.Int64">int</option>
+                            <option value="std_msgs.msg.String">string</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_uses_stdout">uses_stdout</label>
+                    </th>
+                    <td>
+                        <select id="pub_uses_stdout">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_needs_tty">needs_tty</label>
+                    </th>
+                    <td>
+                        <select id="pub_needs_tty">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pub_src">src</label>
+                    </th>
+                    <td>
+                        <select id="pub_src">
+                            <option value="invalid">Choose msg-source!</option>
+                            <!--<option value="-stdin-">-stdin-</option>-->
+                            <option value="-button-">-button-</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%" id="new_node_sub">
+                <tr>
+                    <th>
+                        <label for="sub_node_name">node_name</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_node_name" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_topic">topic</label>
+                    </th>
+                    <td>
+                        <input type="text" id="sub_topic" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+
+                        <label for="sub_msg_type">msg_type</label>
+                    </th>
+                    <td>
+                        <select id="sub_msg_type">
+                            <option value="invalid">Choose msg-type!</option>
+                            <option value="std_msgs.msg.Bool">bool</option>
+                            <option value="std_msgs.msg.Byte">byte</option>
+                            <option value="std_msgs.msg.Char">char</option>
+                            <option value="std_msgs.msg.Empty">empty</option>
+                            <option value="std_msgs.msg.Float64">float</option>
+                            <option value="std_msgs.msg.Int64">int</option>
+                            <option value="std_msgs.msg.String">string</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_uses_stdout">uses_stdout</label>
+                    </th>
+                    <td>
+                        <select id="sub_uses_stdout">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_needs_tty">needs_tty</label>
+                    </th>
+                    <td>
+                        <select id="sub_needs_tty">
+                            <option value="false">false</option>
+                            <option value="true">true</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_callback">callback</label>
+                    </th>
+                    <td>
+                        <select id="sub_callback">
+                            <option value="invalid">Choose callback!</option>
+                            <option value="-stdout-">-stdout-</option>
+                            <option value="-led-">-led-</option>
+                            <option value="-user-supplied-">-user-supplied-</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="sub_user_code">user supplied code</label>
+                    </th>
+                    <td>
+                        <textarea id="sub_user_code" cols="120" rows="20" style="font-size: smaller"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Save node" style="float: right">
+            <input type="reset" value="Reset" style="float: right">
+        </fieldset>
+    </form>
+    <code>
+        Available message sources:
+        <!--<br>
+        -stdin- This will send std_msgs.msg.String messages containing the content of stdin-->
+        <br>
+        -button- This will send std_msgs.msg.String messages whenever button (GPIO2) is pressed/released
+    </code>
+    <br>
+    <br>
+    <code>
+        Available message callbacks:
+        <br>
+        -stdout- This will just print the messages to stdout. Will be displayed in the browser.
+        <br>
+        -led- This will light up an LED (GPIO3) upon receiving the message "yes".
+        <br>
+        -user-supplied- Will enable an additional field. Supply your own code there. Lines must have length &le; 120
+        chars.
+    </code>
+</dialog>
+
+<button onclick="open_new_node_dialog()">Create new node!</button>
+
+<script src="/static/js/dialog_edit_node.js"></script>
