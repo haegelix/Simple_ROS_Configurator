@@ -7,22 +7,24 @@ from ros2_ui.domains.Project import Project
 from ros2_ui.settings import settings
 
 
-# WARNING: Package name "TestPackage" does not follow the naming conventions. It should start with a lower case
-# letter and only contain lower case letters, digits, underscores, and dashes.
-
 class ProjectStorage:
+    """
+    Used to store or load projects on/from disk.
+    """
+
     def __init__(self):
+        """
+        Initialize the ProjectStorage.
+        """
         self.projects_path = settings.projects_path
 
     def list(self) -> [str]:
-        l = os.listdir(self.projects_path)
-        return [i for i in l if i.endswith(".json")]
-
-    def load_all(self) -> [Project]:
-        projectfiles_paths = [path.join(self.projects_path, j) for j in self.list() if
-                              j.endswith(".json")]
-        project_files = [json.load(open(i)) for i in projectfiles_paths]
-        return [Project.from_dict(i) for i in project_files]
+        """
+        Get list of all projects stored on disk.
+        :return: List of filenames.
+        """
+        dir_contents = os.listdir(self.projects_path)
+        return [i for i in dir_contents if i.endswith(".json")]
 
     def load_one(self, filename: str) -> Project:
         """
