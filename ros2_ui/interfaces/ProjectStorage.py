@@ -34,9 +34,6 @@ class ProjectStorage:
         project_file = json.load(open(projectfile_path))
         return Project.from_dict(project_file)
 
-    def list_projects(self) -> [str]:
-        return [j for j in os.listdir(self.projects_path) if j.endswith(".json")]
-
     def save(self, project: Project):
         filename = project.project_info.package_name + ".json"
         projectfile_path = path.join(self.projects_path, filename)
