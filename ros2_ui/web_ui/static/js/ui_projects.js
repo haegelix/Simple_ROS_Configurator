@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     socket.on('build', function (message) {
         const dialog = $('#build_dialog_log')
-        dialog.html(dialog.html() + "<br>" + message.toString().replaceAll("\n", "<br>"))
+        dialog.html(dialog.html() + "<br>" + message.toString().replaceAll("\n", "<br>")
+            .replaceAll(" ", "&nbsp;"))
     })
 })
 

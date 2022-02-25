@@ -74,3 +74,8 @@ def project_build_use_case(project: Project, logger=logging):
     ros2_cli.build_package(project)
     logger.info("Building the new package... DONE!")
 
+
+def project_launch_use_case(project: Project, logger=logging):
+    logger.info("Starting up...")
+    ros2_cli.launch_package(project, logger)
+    logger.info("Stopped...")

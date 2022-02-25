@@ -4,6 +4,8 @@ import re
 import threading
 
 # importing ros2_ui modules
+from typing import IO, AnyStr
+
 from ros2_ui.exceptions.packageexception import PackageException
 from ros2_ui.interfaces.Log import logging
 
@@ -52,7 +54,7 @@ def runcommand(command: str, shortname: str, logger=logging):
         raise PackageException("Aborted because one step ('" + shortname + "') failed!")
 
 
-def log_while_running(stream, stream_name: str, logger=logging):
+def log_while_running(stream: IO[AnyStr], stream_name: str, logger=logging):
     """
     Log everything coming in via a specific stream to a logger of choice.
 
@@ -62,7 +64,8 @@ def log_while_running(stream, stream_name: str, logger=logging):
     :return: Nothing.
     """
     for line in iter(stream.readline, b''):
-        logger.info('{0}: {1}'.format(stream_name, line.decode('utf-8')))
+        if not len(pattern_empty_string.sub("", str(line))) == 0:
+            logger.info('{0}: {1}'.format(stream_name, line[:-1]))
 
 
 def runcommand_continuous_output(command: str, shortname: str, logger=logging):
@@ -94,6 +97,9 @@ def runcommand_continuous_output(command: str, shortname: str, logger=logging):
     # start logger threads
     log_stdout = threading.Thread(target=log_while_running, args=(proc.stdout, "stdout", logger))
     log_stderr = threading.Thread(target=log_while_running, args=(proc.stderr, "stderr", logger))
+
+    log_stdout.start()
+    log_stderr.start()
 
     # await end of subprocess
     return_val = proc.wait()

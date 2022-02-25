@@ -1,7 +1,7 @@
 import shutil
 
 from ros2_ui.domains.Project import Project
-from ros2_ui.interfaces.cli_helper import runcommand
+from ros2_ui.interfaces.cli_helper import runcommand, runcommand_continuous_output
 from ros2_ui.interfaces.Log import logging
 from ros2_ui.settings import settings
 
@@ -119,3 +119,16 @@ def get_package_root_dir(project: Project):
     :return: Path.
     """
     return path.join(ros2_ws_src_path, project.project_info.package_name)
+
+
+def launch_package(project: Project, logger=logging):
+    package_name = project.project_info.package_name
+    launch_file = package_name + ".launch.py"
+    cwd = os.getcwd()
+    os.chdir(ros2_ws_path)
+    command = "ros2 launch " + package_name + " " + launch_file
+    run_file = open("run.sh", "w")
+    run_file.write("source install/setup.bash && " + command)
+    run_file.close()
+    runcommand_continuous_output("bash run.sh", "ros2 launch", logger)
+    os.chdir(cwd)

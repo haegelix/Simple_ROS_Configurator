@@ -56,6 +56,30 @@ def build_package(message):
     close_room("build")
 
 
+@socket_.on('launch', namespace='/package')
+def build_package(message):
+    q = SimpleQueue()
+    logger = get_queue_logger(q, "launch")
+    handler = SocketIOHandler(socket_, "launch", "launch")
+    listener = QueueListener(q, handler)
+    listener.start()
+    # prepare for redirecting the logs
+    join_room("launch")
+    project = ProjectUseCases.project_load_one_use_case(ps, message['filename'])
+    try:
+        ProjectUseCases.project_launch_use_case(project, logger)
+    finally:
+        pass
+
+    # stop redirecting the log
+    while not q.empty():
+        pass
+    listener.stop()
+
+    del logger
+    close_room("launch")
+
+
 @socket_.on('save_package', namespace='/package')
 def save_package(message):
     project = Project.from_dict(message['data'])
