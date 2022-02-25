@@ -6,11 +6,13 @@ class DialogLaunch {
     close() {
         this.dialog.get(0).close()
     }
-
     launch() {
         this.open()
         request_package_launch()
         $("#launch_log2").val("Launch request was sent...\n")
+    }
+    stop() {
+        request_package_stop()
     }
 }
 
@@ -36,5 +38,9 @@ function request_package_launch() {
     } else {
         alert("Open Project first!")
     }
+}
+
+function request_package_stop() {
+    socket.emit('stop')
 }
 

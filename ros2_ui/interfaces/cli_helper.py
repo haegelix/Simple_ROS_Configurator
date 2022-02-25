@@ -9,7 +9,6 @@ from typing import IO, AnyStr
 from ros2_ui.exceptions.packageexception import PackageException
 from ros2_ui.interfaces.Log import logging
 
-
 """
 empty strings may contain tabs, spaces, newlines, carriage returns, underscores and hyphens.
 Despite containing any number of those characters they still count as empty.
@@ -54,6 +53,8 @@ def runcommand(command: str, shortname: str, logger=logging):
         raise PackageException("Aborted because one step ('" + shortname + "') failed!")
 
 
+loggers_enabled = True
+
 def log_while_running(stream: IO[AnyStr], stream_name: str, logger=logging):
     """
     Log everything coming in via a specific stream to a logger of choice.
@@ -64,8 +65,17 @@ def log_while_running(stream: IO[AnyStr], stream_name: str, logger=logging):
     :return: Nothing.
     """
     for line in iter(stream.readline, b''):
+        if not loggers_enabled:
+            return
         if not len(pattern_empty_string.sub("", str(line))) == 0:
             logger.info('{0}: {1}'.format(stream_name, line[:-1]))
+
+
+proc: subprocess.Popen
+
+
+def stop_launch():
+    proc.terminate()
 
 
 def runcommand_continuous_output(command: str, shortname: str, logger=logging):
@@ -78,6 +88,8 @@ def runcommand_continuous_output(command: str, shortname: str, logger=logging):
     :return: Nothing.
     :raises PackageException: Raised if the application returns a non-zero exit value.
     """
+    global proc, loggers_enabled
+
     shortname += "..."
 
     # Split command without splitting nested Strings.
@@ -95,6 +107,7 @@ def runcommand_continuous_output(command: str, shortname: str, logger=logging):
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     # start logger threads
+    loggers_enabled = True
     log_stdout = threading.Thread(target=log_while_running, args=(proc.stdout, "stdout", logger))
     log_stderr = threading.Thread(target=log_while_running, args=(proc.stderr, "stderr", logger))
 
@@ -104,10 +117,8 @@ def runcommand_continuous_output(command: str, shortname: str, logger=logging):
     # await end of subprocess
     return_val = proc.wait()
     logger.info(shortname + " returned code " + str(return_val))
+    loggers_enabled = False
 
     # await logger threads terminations
     log_stdout.join()
     log_stderr.join()
-
-    if return_val != 0:
-        raise PackageException("Aborted because one step ('" + shortname + "') failed!")

@@ -79,3 +79,7 @@ def project_launch_use_case(project: Project, logger=logging):
     logger.info("Starting up...")
     ros2_cli.launch_package(project, logger)
     logger.info("Stopped...")
+
+
+def project_stop():
+    ros2_cli.stop_package()

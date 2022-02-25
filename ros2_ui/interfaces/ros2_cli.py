@@ -1,7 +1,7 @@
 import shutil
 
 from ros2_ui.domains.Project import Project
-from ros2_ui.interfaces.cli_helper import runcommand, runcommand_continuous_output
+from ros2_ui.interfaces.cli_helper import runcommand, runcommand_continuous_output, stop_launch
 from ros2_ui.interfaces.Log import logging
 from ros2_ui.settings import settings
 
@@ -132,3 +132,8 @@ def launch_package(project: Project, logger=logging):
     run_file.close()
     runcommand_continuous_output("bash run.sh", "ros2 launch", logger)
     os.chdir(cwd)
+    logger.info("Launch done... App stopped.")
+
+
+def stop_package():
+    stop_launch()

@@ -56,8 +56,13 @@ def build_package(message):
     close_room("build")
 
 
+@socket_.on('stop', namespace='/package')
+def stop_package():
+    ProjectUseCases.project_stop()
+
+
 @socket_.on('launch', namespace='/package')
-def build_package(message):
+def launch_package(message):
     q = SimpleQueue()
     logger = get_queue_logger(q, "launch")
     handler = SocketIOHandler(socket_, "launch", "launch")
